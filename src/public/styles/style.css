@@ -225,7 +225,7 @@ a:active {
     align-items: center;
 }
 
-.search-bar {
+.search-container form {
     display: flex;
     background-color: white;
     border-radius: 25px;
@@ -234,14 +234,14 @@ a:active {
     max-width: 600px;
 }
 
-.search-bar input {
+.search-container form input {
     width: 100%;
     padding: 7px;
     border: none;
     outline: none;
 }
 
-.search-bar button {
+.search-container form button {
     background-color: transparent;
     border: none;
     padding: 7px;

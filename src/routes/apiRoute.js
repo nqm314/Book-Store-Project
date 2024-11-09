@@ -5,7 +5,8 @@ const route = Router()
 
 
 //Book route
-route.get('/book/get-all', controllers.bookController.getAllbook)
+route.get('/book/get-all', controllers.bookController.getAllBook)
+route.get('/book/search', controllers.bookController.searchBook)
 
 //Order route
 route.get('/order/get-all', controllers.orderController.getAllOrder)
