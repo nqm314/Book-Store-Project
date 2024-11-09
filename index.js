@@ -29,6 +29,19 @@ app.get('/books', (req, res) => {
     });
 });
 
+app.get('/search', (req, res) => {
+    const searchQuery = req.query.q; 
+    const query = 'SELECT * FROM book WHERE Title LIKE ?';
+    connection.query(query, [`%${searchQuery}%`],(err, results) => {
+        if (err) {
+            console.error('Lỗi khi thực thi truy vấn:', err);
+            res.status(500).json({ error: 'Lỗi server' });
+            return;
+        }
+        res.json(results);
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại http://localhost:${PORT}`);
 });
