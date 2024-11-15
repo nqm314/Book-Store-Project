@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thêm sách</title>
+    <link href="../../styles/style.css" rel="stylesheet" type="text/css" />
+    <script src="../../scripts/script.js" defer></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <a href="/">
+          <img
+            src="../../images/bookstore logo.jpg"
+            alt="Book Store Logo"
+            class="book-store-logo"
+          />
+        </a>
+      </div>
+      <div class="menu">
+        <a href="#">Sách</a>
+        <a href="#">Giỏ hàng</a>
+        <div class="menu-user">
+          <img
+            src="../../images/user-profile-icon-free-vector.jpg"
+            alt="User Avatar"
+          />
+          <a href="/info">Người dùng</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Book Form -->
+    <div class="addContainer">
+      <!-- Modal nhập thông tin -->
+      <div class="modal" id="bookModal">
+        <div class="modal-content">
+          <h2 class="addTitle" style="font-size: 24px">
+            Nhập thông tin sách cần thêm
+          </h2>
+
+          <!-- Nút đóng modal -->
+          <form method="POST" class="form-content" action="/create/store">
+            <!-- Hiển thị thông báo lỗi nếu có -->
+            <!-- Hiển thị thông báo lỗi nếu có -->
+            <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert-error"><%= error %></div>
+            <% } %>
+            <label class="required" for="book-id">Nhập ID:</label>
+            <input
+              type="text"
+              name="book_id"
+              id="book-id"
+              placeholder="Nhập id"
+              required
+            />
+
+            <label class="required" for="book-title">Tên sách:</label>
+            <input
+              type="text"
+              name="title"
+              id="book-title"
+              placeholder="Nhập tên sách"
+              required
+            />
+
+            <label for="link-img">Link ảnh sách</label>
+            <input
+              type="text"
+              name="link-img"
+              id="link-img"
+              placeholder="Nhập liên kết ảnh"
+            />
+
+            <label for="book-description">Mô tả:</label>
+            <textarea
+              id="book-description"
+              name="description"
+              rows="4"
+              placeholder="Nhập mô tả"
+            ></textarea>
+
+            <label for="book-chapters">Số chương:</label>
+            <input
+              type="number"
+              name="volumn_number"
+              id="book-chapters"
+              placeholder="Nhập số chương"
+            />
+
+            <label class="required" for="book-type">Loại sách:</label>
+            <select
+              id="book-type"
+              name="book_type"
+              onchange="toggleSeriesInput()"
+              required
+            >
+              <option value="">---Chọn loại sách---</option>
+              <option>Truyện tranh</option>
+              <option>Tiểu thuyết</option>
+              <option>Sách tham khảo</option>
+              <option>Tạp chí</option>
+            </select>
+
+            <div id="series-container" style="display: none">
+              <label for="series">Series:</label>
+              <input
+                type="text"
+                id="series"
+                name="series_id"
+                placeholder="Nhập series"
+              />
+            </div>
+
+            <label class="required" for="publisher">Nhà xuất bản:</label>
+            <input
+              type="text"
+              name="pub_id"
+              id="publisher"
+              placeholder="Nhập nhà xuất bản"
+              required
+            />
+
+            <div class="button-group">
+              <button type="submit" class="add-btn">Thêm</button>
+              <button class="close-btn-modal" onclick="closeModal()">
+                Đóng
+              </button>
+            </div>
+            <div
+              id="error-message"
+              style="display: none; color: red; font-weight: bold"
+            ></div>
+          </form>
+          <!-- Nhóm nút Thêm và Đóng -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
