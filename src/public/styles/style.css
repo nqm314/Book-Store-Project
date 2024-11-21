@@ -472,3 +472,113 @@ a:active {
   border: 1px solid red;
   background-color: #f8d7da;
 }
+
+/* Del btn */
+.delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Khoảng cách giữa biểu tượng và chữ */
+  margin: 10px auto 0;
+  padding: 8px 15px;
+  background-color: #000; /* Nền đen */
+  color: white; /* Chữ trắng */
+  border: none; /* Xóa viền mặc định */
+  border-radius: 8px; /* Bo góc mềm mại */
+  font-size: 14px; /* Kích thước chữ vừa phải */
+  font-weight: bold; /* Chữ đậm */
+  cursor: pointer; /* Con trỏ chỉ tay khi hover */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Hiệu ứng nổi */
+  transition: all 0.3s ease; /* Hiệu ứng mượt mà khi hover */
+}
+
+.delete-btn i {
+  font-size: 16px; /* Kích thước biểu tượng */
+}
+
+.delete-btn:hover {
+  background-color: #333; /* Đổi màu xám khi hover */
+  transform: translateY(-2px); /* Hiệu ứng nhấn nổi */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3); /* Tăng bóng đổ */
+}
+
+.delete-btn:active {
+  transform: translateY(0); /* Hiệu ứng nhấn xuống */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Giảm bóng đổ khi nhấn */
+}
+
+/* Confirm dle */
+/* Hiệu ứng ẩn khung xác nhận */
+.hidden {
+  display: flex;
+}
+
+/* Hiển thị khung overlay */
+#confirmation-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Nội dung khung xác nhận */
+.confirmation-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.confirmation-content p {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Nút xác nhận */
+.confirm-btn {
+  padding: 8px 15px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.confirm-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Nút hủy */
+.cancel-btn {
+  padding: 8px 15px;
+  background-color: #95a5a6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background-color: #7f8c8d;
+}
+
+/* Hiệu ứng fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -9,6 +9,17 @@ const getAll = async () => {
   }
 };
 
+const getBookById = async (bookId) => {
+  try {
+    const result = await db.execute("SELECT * FROM book WHERE book_id = ?", [
+      bookId,
+    ]);
+    return result[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
 const search = async (query) => {
   try {
     const results = await db.execute(
@@ -21,8 +32,9 @@ const search = async (query) => {
   }
 };
 // Create
-const create = async () => {};
+
 module.exports = {
   getAll,
   search,
+  getBookById,
 };

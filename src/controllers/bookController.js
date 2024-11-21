@@ -11,6 +11,17 @@ const getAllBook = async (req, res) => {
   }
 };
 
+const getBookById = async (req, res) => {
+  const bookId = req.params.book_id; // Extract book_id from the request parameters
+  try {
+    const book = await bookService.getBookById(bookId);
+    return res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while fetching the book.");
+  }
+};
+
 const searchBook = async (req, res) => {
   try {
     const books = await bookService.search(req.query.q);
@@ -24,85 +35,7 @@ const searchBook = async (req, res) => {
 const createBook = (req, res) => {
   res.render("pages/create");
 };
-// const storeBook = async (req, res) => {
-//   const {
-//     book_id,
-//     title,
-//     link_img,
-//     description,
-//     volume_number,
-//     book_type,
-//     pub_id,
-//   } = req.body;
-//   console.log(req.body);
-//   if (!book_id || !title || !book_type || !pub_id) {
-//     return res.status(400).send("Thiếu thông tin cần thiết");
-//   }
-//   try {
-//     const query =
-//       "INSERT INTO book (book_id, title, description, volume_number, book_type, pub_id) VALUES (?, ?, ?, ?, ?, ?)";
-//     await db.query(
-//       query,
-//       [book_id, title, description, volumn_number, book_type, pub_id],
-//       (err, result) => {
-//         if (err) {
-//           if (err.code === "ER_DUP_ENTRY") {
-//             return res.render("create", { error: "Book_ID đã tồn tại." });
-//           }
-//           return res.status(500).send("Lỗi khi thêm sách vào cơ sở dữ liệu");
-//         }
-//         res.redirect("/");
-//       }
-//     );
-//   } catch (err) {
-//     console.error("Lỗi khi thêm sách:", err);
-//     if (err.code == "ER_DUP_ENTRY") {
-//       res.return;
-//     }
-//     return res.status(500).send("Lỗi khi thêm sách vào cơ sở dữ liệu");
-//   }
-// };
-// const storeBook = async (req, res) => {
-//   const {
-//     book_id,
-//     title,
-//     link_img,
-//     description,
-//     volume_number,
-//     book_type,
-//     pub_id,
-//   } = req.body;
 
-//   if (!book_id || !title || !book_type || !pub_id) {
-//     return res.render("pages/create", {
-//       error: "Thiếu thông tin cần thiết",
-//     });
-//   }
-
-//   try {
-//     const query =
-//       "INSERT INTO book (book_id, title, description, volume_number, book_type, pub_id) VALUES (?, ?, ?, ?, ?, ?)";
-//     await db.query(query, [
-//       book_id,
-//       title,
-//       description,
-//       volume_number,
-//       book_type,
-//       pub_id,
-//     ]);
-
-//     // Sau khi thêm thành công, chuyển hướng về trang chủ
-//     return res.redirect("/");
-//   } catch (err) {
-//     console.error("Lỗi khi thêm sách:", err);
-//     if (err.code == "ER_DUP_ENTRY") {
-//       return res.render("pages/create", {
-//         error: "Book ID đã tồn tại",
-//       });
-//     }
-//     return res.status(500).send("Lỗi khi thêm sách vào cơ sở dữ liệu");
-//   }
-// };
 const storeBook = async (req, res) => {
   const {
     book_id,
@@ -139,8 +72,7 @@ const storeBook = async (req, res) => {
       pub_id,
       seriesIdValue,
     ]);
-
-    return res.redirect("/"); // Chuyển hướng nếu thêm thành công
+    res.redirect("/"); // Chuyển hướng nếu thêm thành công
   } catch (err) {
     console.error("Lỗi khi thêm sách:", err);
     if (err.code === "ER_DUP_ENTRY") {
@@ -152,9 +84,28 @@ const storeBook = async (req, res) => {
   }
 };
 
+const destroyBook = async (req, res) => {
+  const bookId = req.params.book_id; // Lấy book_id từ URL params
+  try {
+    const query = "DELETE FROM book WHERE book_id = ?";
+    await db.query(query, [bookId], (err, result) => {
+      if (err) {
+        console.log("Lỗi:", err);
+        return res.status(500).send("Lỗi khi xóa sách khỏi cơ sở dữ liệu");
+      }
+      res.status(200).json({ message: "Sách đã được xóa thành công" });
+    });
+  } catch (err) {
+    console.log("Lỗi:", err);
+    return res.status(500).send("Lỗi khi xóa sách khỏi cơ sở dữ liệu");
+  }
+};
+
 module.exports = {
   getAllBook,
   searchBook,
   createBook,
   storeBook,
+  destroyBook,
+  getBookById,
 };

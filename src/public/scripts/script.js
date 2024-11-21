@@ -2,6 +2,12 @@ const search = document.getElementById("search-area");
 const form = document.getElementById("form");
 const bookList = document.getElementById("book-list");
 
+//Delete
+const confirmationBox = document.getElementById("confirmation-box");
+const confirmDelete = document.getElementById("confirm-delete");
+const cancelDelete = document.getElementById("cancel-delete");
+let bookToDeleteId = null; // Biến lưu trữ ID sách cần xóa
+let bookTitle = null;
 fetchBooks("http://localhost:5000/api/book/get-all");
 
 function fetchBooks(url) {
@@ -34,9 +40,21 @@ function displayBook(data) {
     const type = document.createElement("p");
     type.innerHTML = `<strong>Tên</strong>: ${book.title}`;
 
+    // Icon del
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete-btn");
+    deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i> Xóa';
+
+    deleteButton.onclick = () => {
+      bookToDeleteId = book.book_id; // Lưu ID sách
+      bookTitle = book.title;
+      confirmationBox.style.display = "flex"; // Hiển thị khung xác nhận
+    };
+
     center.appendChild(image);
     bookDiv.appendChild(center);
     bookDiv.appendChild(type);
+    bookDiv.appendChild(deleteButton); // Thêm nút xóa vào bookDiv
     div_column.appendChild(bookDiv);
     div_row.appendChild(div_column);
 
@@ -84,3 +102,33 @@ function toggleSeriesInput() {
     document.getElementById("series").value = "";
   }
 }
+
+function deleteBook(bookId, bookTitle) {
+  fetch(`http://localhost:5000/api/book/${bookId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (response) {
+      response.json();
+    })
+    .then(fetchBooks("http://localhost:5000/api/book/get-all"));
+  alert(`Đã xóa thành công sách: ${bookTitle}`);
+}
+
+// Confirm delete button click handler
+confirmDelete.onclick = () => {
+  if (bookToDeleteId) {
+    // console.log(bookToDeleteId);
+    deleteBook(bookToDeleteId, bookTitle); // Gọi hàm xóa sách
+    bookToDeleteId = null; // Reset ID sách
+    bookTitle = null;
+    confirmationBox.style.display = "none"; // Ẩn khung xác nhận
+  }
+};
+cancelDelete.onclick = () => {
+  bookToDeleteId = null; // Reset ID sách
+  bookTitle = null;
+  confirmationBox.style.display = "none"; // Ẩn khung xác nhận
+};
