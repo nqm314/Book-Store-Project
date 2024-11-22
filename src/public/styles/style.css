@@ -100,6 +100,11 @@ a:active {
     background-color: #333333;
 }
 
+.login-box p {
+    color: red;
+    margin: 12px;
+}
+
 .menu {
     display: flex;
     align-items: center;

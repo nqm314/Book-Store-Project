@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const path = require("path");
+const controllers = require("../controllers")
 
 const route = Router();
 
@@ -8,7 +9,7 @@ route.get('/', (req, res) => {
 })
 
 route.get('/login', (req, res) => {
-    return res.sendFile(path.join(__dirname, "../public/views/pages/login.html"));
+    return res.sendFile(path.join(__dirname, '../public/views/pages/login.html'))
 });
 
 route.get('/info', (req, res) => {
