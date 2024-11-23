@@ -1,0 +1,400 @@
+/* Global Reset and Font */
+/* style.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+img {
+  display: block;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    /* background-color: #888888; */
+    background-image: url("../images/bookstore\ background.jpg");
+    background-repeat: no repeat;
+    background-size: cover;
+}
+
+a:any-link {
+  color: #333333;
+}
+
+a:hover, a:focus-visible {
+  color: #959d9d;
+}
+
+a:active {
+  color: #f5ba4d;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 10px 20px 10px 20px;
+    border-bottom: 3px solid #333333;
+}
+
+.logo img {
+    width: 96px;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.login-container {
+    position: absolute;
+    top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.login-box {
+    width: 450px;
+    padding: 40px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333333;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.login-box button {
+    width: 40%;
+    padding: 7px;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background-color: #333333;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; 
+}
+
+.menu a {
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+.menu img {
+    width: 40px;
+    height: 40px;
+    /* margin: 0px 0.5px 0px 0px; */
+}
+
+.menu-user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; 
+}
+
+.profile-container {
+    position: absolute;
+    top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.profile-box {
+    display: flex;
+    width: 800px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.profile-sidebar {
+    width: 40%;
+    background-color: #F8F8F8;
+    padding: 20px;
+    border-right: 1px solid #E0E0E0; 
+}
+
+.profile-sidebar h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333333;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 10px; 
+}
+
+.profile-info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333333;
+}
+
+.profile-details {
+    flex-grow: 1; 
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pofile-details h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333333;
+}
+
+.info-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.info-box {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-field {
+    font-size: 16px;
+    color: #333333;
+    font-weight: bolder;
+}
+
+.info-value {
+    width: 200px;
+    background-color: #E0E0E0;
+    padding: 5px;
+    border-radius: 5px;
+    height: 25px;
+    text-align: center;
+}
+
+.search-container {
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    background-color: #000000;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-container form {
+    display: flex;
+    background-color: white;
+    border-radius: 25px;
+    overflow: hidden;
+    width: 60%;
+    max-width: 600px;
+}
+
+.search-container form input {
+    width: 100%;
+    padding: 7px;
+    border: none;
+    outline: none;
+}
+
+.search-container form button {
+    background-color: transparent;
+    border: none;
+    padding: 7px;
+    cursor: pointer;
+}
+
+/* Book List and Cards */
+.book-list-container {
+    position: absolute;
+    top: 150px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    gap: 2.5px;
+    padding: 5px;
+    max-width: 80%; /* Giới hạn chiều rộng container */
+}
+
+.column {
+    float: left;
+    width: 100%;
+    padding: 10px 5px;
+}
+
+.book-card {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    text-align: center;
+    padding: 10px;
+    transition: transform 0.3s;
+}
+
+.book-card:hover {
+    transform: scaleX(105%) scaleY(105%) scaleZ(105%);
+}
+
+.poster {
+    width: 135px;
+    height: 195px;
+    border-radius: 10px;
+    margin-bottom: 2.5px;
+    margin-left: 2.5px;
+    margin-right: 2.5px;
+}
+
+.book-card h3 {
+    color: #333333;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.book-card p {
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.4;
+}
+
+.dashboard-container {
+    position: absolute;
+    top: 50px;
+    font-family: 'Poppins', sans-serif;
+    padding: 1rem;
+    display: grid;
+    padding-top: 2rem;
+    place-items: center;
+}
+
+.indicators {
+    margin: 0 0;
+    display: flex;
+    flex-direction: row; /* Thay đổi từ column sang row */
+    flex-wrap: wrap; /* Thêm wrap để các indicator xuống dòng */
+    justify-content: left;
+    max-width: 200rem;
+    gap: 1rem;
+}
+
+.indicator {
+    max-width: 20rem; /* Giảm max-width để các indicator vừa đủ */
+    width: 100%;
+    border: 1px solid #d1d8e0;
+    border-radius: 1rem;
+    padding: 1.05rem;
+    background-color: rgb(196, 251, 255);
+    cursor: pointer;
+    height: fit-content;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* margin: 1rem; Thêm margin để tạo khoảng cách giữa các indicator */
+}
+
+.indicator:hover {
+    border: 1px solid #6c5ce7;
+    transform: scaleX(105%) scaleY(105%) scaleZ(105%);
+}
+
+.indicator header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin-bottom: 0rem;
+    gap: 3rem;
+}
+
+.indicator header h2 {
+    color: rgb(0, 203, 203);
+}
+
+.indicator__body {
+    color: rgb(0, 203, 203);
+    align-items: center;
+    justify-content: start;
+    font-size: 1.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    border-bottom: 1px solid #666666;
+}
+
+.indicator__footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-between;
+}
+
+
+.indicator__footer .trend {
+    color: #00b83d;
+    background: rgb(173, 253, 182);
+    font-size: 1rem;
+    border: 1px solid #d1d8e0;
+    display: flex;
+    padding: 0.25rem 1rem;
+    align-items: center;
+    border-radius: 99rem;
+    gap: 0.25rem;
+    font-weight: 700;
+}
+
+.indicator__footer p {
+    color: rgb(0, 203, 203);
+    background-color: #c8f7f7;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-align: center;
+}
