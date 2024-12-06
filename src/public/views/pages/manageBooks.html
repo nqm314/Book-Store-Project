@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Books</title>
+  <link href="../../styles/style.css" rel="stylesheet" type="text/css" />
+  <script src="../../scripts/manageBooksScript.js" defer></script>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">
+        <img src="../../images/bookstore logo.jpg" alt="Book Store Logo" class="book-store-logo">
+    </div>
+    <div class="menu">
+      <a href="/admin/manage-books">Quản lý sách</a>
+      <a href="/order">Quản lý đơn hàng</a>
+      <a href="/admin/dashboard">Dashboard</a>
+      <div class="menu-user">
+        <img src="../../images/user-profile-icon-free-vector.jpg" alt="User Avatar">
+        <a href="/admin/info">Quản lý</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-container">
+    <form action="search" id="form">
+      <input type="search" id="search-area" name="q" placeholder="Search">
+      <button><span>🔍</span></button>
+    </form>
+    <div class="btn-add">
+      <a href="/admin/add-book"><button class="btn-sty">Thêm sách</button></a>
+    </div>
+  </div>
+
+  <div class="filter-container">
+    <form id="filterForm">
+      <div class="filter-group">
+        <label for="type">Thể loại:</label>
+        <select id="type" name="type">
+          <option value="">Tất cả</option>
+          <option value="novel">Tiểu thuyết</option>
+          <option value="reference">Sách tham khảo</option>
+          <option value="comic">Truyện tranh</option>
+          <option value="magazine">Tạp chí</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="priceRange">Giá:</label>
+        <select id="priceRange" name="priceRange">
+          <option value="">Tất cả</option>
+          <option value="low">Dưới 100,000đ</option>
+          <option value="medium">100,000đ - 500,000đ</option>
+          <option value="high">Trên 500,000đ</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="rating">Đánh giá:</label>
+        <select id="rating" name="rating">
+          <option value="">Tất cả</option>
+          <option value="5">5 sao</option>
+          <option value="4">4 sao trở lên</option>
+          <option value="3">3 sao trở lên</option>
+        </select>
+      </div>
+      <div class="filter-actions">
+        <button id="filter-button" class="btn-filter">Lọc</button>
+        <button id="reset-button" type="reset" class="btn-reset">Đặt lại</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="book-list-container"  id="book-list"></div>
+
+  <div id="confirmation-delete-box" class="hidden">
+    <div class="confirmation-content">
+      <p>Bạn có chắc chắn muốn xóa sách này?</p>
+      <!-- <form id="delete-form" method="POST" action="/delete"> -->
+      <!-- <input type="hidden" id="delete-book-id" name="book_id" /> -->
+      <button id="confirm-delete" class="confirm-btn">Xóa</button>
+      <!-- </form> -->
+      <button id="cancel-delete" class="cancel-btn">Hủy</button>
+    </div>
+  </div>
+
+  <div id="confirmation-edit-box" class="hidden">
+    <div class="confirmation-content">
+      <p>Bạn có chắc chắn muốn chỉnh sửa sách này?</p>
+      <!-- <form id="delete-form" method="POST" action="/delete"> -->
+      <!-- <input type="hidden" id="delete-book-id" name="book_id" /> -->
+      <button id="confirm-edit" class="confirm-btn">Sửa</button>
+      <!-- </form> -->
+      <button id="cancel-edit" class="cancel-btn">Hủy</button>
+    </div>
+  </div>
+
+  <div class="modal" id="response-modal">
+    <div class="response-modal-content">
+      <h2 id="response-message"></h2>
+      <button id="ok-btn">OK</button>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button id="prevPage">Trước</button>
+    <span id="currentPage"></span>
+    <button id="nextPage">Sau</button>
+  </div>
+</body> 
+
+</html>

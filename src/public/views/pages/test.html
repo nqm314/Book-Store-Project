@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-lg mx-auto">
+      <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">
+        Order Details: #${order.OrderID}
+      </h2>
+
+      <!-- General Order Details -->
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-3">
+          General Details
+        </h3>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Date:</span> ${formatDateTime(
+          order.OrderDate )}
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Address:</span> ${ order.OrderAddress }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Status:</span> ${ order.OrderStatus }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Original Price:</span> ${
+          order.OriginalPrice }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Payment Method:</span> ${
+          order.PaymentMethod }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Payment Time:</span> ${formatDateTime(
+          order.PaymentTime )}
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Expected Complete:</span>
+          ${formatDateTime( formatDateTime(order.ExpectedComplete) )}
+        </p>
+      </div>
+
+      <!-- Customer Details -->
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-3">
+          Customer Details
+        </h3>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Name:</span> ${ order.CustomerName }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Sex:</span> ${ order.CustomerSex }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Age:</span> ${ order.CustomerAge }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Level:</span> ${ order.CustomerLevel }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Order Sum:</span> ${
+          order.CustomerOrderSum }
+        </p>
+      </div>
+
+      <!-- Staff Details -->
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-3">
+          Staff Details
+        </h3>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Name:</span> ${ order.StaffName }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Salary:</span> $${ order.StaffSalary }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Hired Date:</span> ${formatDateTime(
+          formatDateTime(order.StaffHired) )}
+        </p>
+      </div>
+
+      <!-- Shipper Details -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-3">
+          Shipper Details
+        </h3>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Name:</span> ${ order.ShipperName }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Phone Number:</span> ${ order.PhoneNumber
+          }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">City:</span> ${ order.City }
+        </p>
+        <p class="text-sm text-gray-600">
+          <span class="font-semibold">Address:</span> ${ order.Address }
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-6 flex justify-between">
+        <button
+          id="edit-order"
+          class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+        >
+          Edit
+        </button>
+        <button
+          id="delete-order"
+          class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+        >
+          Delete
+        </button>
+        <button
+          id="close-modal"
+          class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

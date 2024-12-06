@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Book</title>
+  <link href="../../styles/style.css" rel="stylesheet" type="text/css" />
+  <script src="../../scripts/editBookScript.js" defer></script>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">
+        <img src="../../images/bookstore logo.jpg" alt="Book Store Logo" class="book-store-logo">
+    </div>
+    <div class="menu">
+        <a href="/admin/manage-books">Quản lý sách</a>
+        <a href="/order">Quản lý đơn hàng</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <div class="menu-user">
+          <img src="../../images/user-profile-icon-free-vector.jpg" alt="User Avatar">
+          <a href="/admin/info">Quản lý</a>
+        </div>
+    </div>
+  </div>
+
+  <!-- Add Book Form -->
+  <div class="add-book-container">
+    <!-- Modal enter info-->
+     <div class="modal" id="book-modal"> 
+      <div class="modal-content">
+        <h2 class="add-title" style="font-size: 24px;">
+          Chỉnh sửa thông tin sách 
+        </h2>
+
+        <form id="edit-book-form" class="form-book-content">
+            <label for="book-id" class="required">ID sách</label>
+            <input type="text" id="book-id" name="book_id" disabled />
+    
+            <label for="book-title" class="required">Tên sách</label>
+            <input type="text" id="book-title" name="title" placeholder="Nhập tên sách" required />
+    
+            <!-- <label for="link-book-img" class="required">Link ảnh sách</label>
+            <input type="text" id="link-book-img" name="link_img" placeholder="Nhập liên kết ảnh" required /> -->
+    
+            <label for="book-chapters">Số chương</label>
+            <input type="text" id="book-chapters" name="volume_number" placeholder="Nhập số chương" />
+    
+            <label for="book-type" class="required">Loại sách</label>
+            <select id="book-type" name="book_type" required>
+              <option value="">---Chọn loại sách---</option>
+              <option value="Truyện tranh">Truyện tranh</option>
+              <option value="Tiểu thuyết">Tiểu thuyết</option>
+              <option value="Sách tham khảo">Sách tham khảo</option>
+              <option value="Tạp chí">Tạp chí</option>
+            </select>
+
+            <label for="book-description">Mô tả</label>
+            <textarea id="book-description" name="description" rows="4" placeholder="Nhập mô tả"></textarea>
+
+            <label for="publisher" class="required">Nhà xuất bản</label>
+            <input type="text" id="publisher" name="publisher name" placeholder="Nhập nhà xuất bản" required />
+
+            <label for="series">Series</label>
+            <input type="text" id="series" name="series name" placeholder="Nhập series" />
+    
+            <div class="button-group">
+              <button type="submit" class="add-book-btn">Lưu thay đổi</button>
+              <button type="button" class="close-btn-modal" onclick="window.history.back()">Hủy</button>
+            </div>
+          </form>
+      </div>
+     </div>
+  </div>
+
+  <div class="modal" id="response-modal">
+    <div class="response-modal-content">
+      <h2 id="response-message"></h2>
+      <button id="ok-btn">OK</button>
+    </div>
+  </div>
+</body>
