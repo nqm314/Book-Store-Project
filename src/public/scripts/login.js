@@ -6,7 +6,7 @@ loginForm.addEventListener('submit', async (e) => {
     const username = e.target[0].value;
     const password = e.target[1].value;
     
-    const reqLogin = await fetch('http://localhost:5000/api/login', {
+    const reqLogin = await fetch('/api/login', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -18,7 +18,10 @@ loginForm.addEventListener('submit', async (e) => {
         })
     })
     if(reqLogin.status === 200) {
-        window.location = "http://localhost:5000";
+        const response = await reqLogin.json()
+        const token = response.data.token
+        localStorage.setItem('token', token)
+        window.location = "/";
     } else {
         const message = loginForm.getElementsByTagName('p')[0]
         message.style.display = 'flex';

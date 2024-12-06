@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/images/bookstore logo.jpg">
+        <title>Đơn hàng</title>
+        <link href="/styles/order.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <%- include('../templates/header'); %>
+        <h2 class="title">Thông tin đơn hàng</h2>
+        <table>
+            <tr>
+                <th>STT</th>
+                <th>Mã đơn</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Phí vận chuyển</th>
+                <th>Trạng thái</th>
+            </tr>
+            <% if (typeof notFound == "undefined") { %>
+            <% for(const key in orders) { %>
+            <tr>
+                <td><%= (currentPage - 1) * 10 + parseInt(key) + 1 %></td>
+                <td><%= orders[key].order_id %></td>
+                <td><%= orders[key].date %></td>
+                <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(orders[key].original_price) %></td>
+                <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(orders[key].shipment_cost) %></td>
+
+                <td><%= orders[key].status %></td>
+            </tr>
+            <% } %>
+        </table>
+        <div class="center">
+            <div class="pagination">
+                <a href="/order?page=1">&laquo;</a>
+                <a href="/order?page=<%= currentPage - 2 %>" <%= currentPage - 2 <= 0 ? 'style=display:none;' : '' %>><%= currentPage - 2 %></a>
+                <a href="/order?page=<%= currentPage - 1 %>" <%= currentPage - 1 <= 0 ? 'style=display:none;' : '' %>><%= currentPage - 1 %></a>
+                <a class="active" href="#"><%= currentPage %></a>
+                <a href="/order?page=<%= currentPage + 1 %>" <%= currentPage + 1 > totalPages ? 'style=display:none;' : '' %>><%= currentPage + 1 %></a>
+                <a href="/order?page=<%= currentPage + 2 %>" <%= currentPage + 2 > totalPages ? 'style=display:none;' : '' %>><%= currentPage + 2 %></a>
+                <a href="/order?page=<%= totalPages %>">&raquo;</a>
+            </div>
+        </div>
+        <% } else { %>
+        </table>
+        <div class="message">
+            <h2>Hiện tại bạn chưa có đơn hàng</h2>
+        </div>
+        <% } %>
+    </body>
+</html>

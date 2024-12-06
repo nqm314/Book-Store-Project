@@ -1,43 +1,74 @@
-const { authService } = require('../services');
+const brycpt = require("bcryptjs");
+const { customerService, staffService } = require("../services");
 
-const login = async (req, res) => {
-    try {
-        const check = await authService.validUser(req.body.username, req.body.password, req.body.role)
-        if(!check) {
-            return res.status(401).json({
-                message: 'Unathorized!'
-            })
-        }
-        const token = await authService.accessToken(req.body.username, req.body.role)
-        res.set('Set-Cookie', `authorization=${token}`)
-        return res.status(200).json({
-            message: 'Login successfully!',
-            data: {
-                username: req.body.username,
-                role: req.body.role,
-            }
-        })
-    } catch (error) {
-        console.error(error);
-        return res.status(500)
+const showLoginCustomer = async (req, res) => {
+    return res.render("pages/login");
+};
+
+const loginCustomer = async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const user = await customerService.findCustomerByUsername(username);
+    if (user?.password && brycpt.compareSync(password, user.password)) {
+        req.session.loggedin = true;
+        req.session.user = {
+            customer_id: user.customer_id,
+            username: username,
+            role: "CUSTOMER",
+        };
+        return res.redirect("/");
     }
-}
+    return res.render("pages/login", {
+        username: username,
+        password: password,
+        loginFailed: true,
+    });
+};
+
+const loginStaff = async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const user = await staffService.findStaffByUsername(username);
+    if (user?.password && brycpt.compareSync(password, user.password)) {
+        req.session.loggedin = true;
+        req.session.user = {
+            staff_id: user.staff_id,
+            username: username,
+            role: "STAFF",
+        };
+        req.session.cart = [];
+        return res.redirect("/admin");
+    }
+    return res.redirect("/pages/loginAdmin");
+};
 
 const logout = async (req, res) => {
-    try {
-        const token = req.headers.cookie?.split('=')[1];
-        if(token) {
-            authService.delToken(token);
-            res.set('Set-Cookie', `authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC`)
+    const role = req.session.user.role;
+    req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
         }
-        return res.status(200).json({message: "OK!"})
-    } catch (error) {
-        console.error(error);
-        return res.status(500)
+    });
+    if (role === "staff") {
+        return res.redirect("/admin/login");
+    } else {
+        return res.redirect("/login");
     }
+};
+
+const showInfo = async (req, res) => {
+    const customerID = req.session.user.customer_id;
+    const customer = await customerService.findCustomerById(customerID);
+    res.locals.customer = customer;
+    return res.render('pages/info')
 }
 
 module.exports = {
-    login,
+    showLoginCustomer,
+    loginCustomer,
+    loginStaff,
     logout,
-}
+    showInfo,
+};

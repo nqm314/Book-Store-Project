@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/images/bookstore logo.jpg">
+        <title>Home</title>
+        <link href="/styles/home.css" rel="stylesheet" type="text/css" />
+        <script src="/scripts/script.js" defer></script>
+    </head>
+
+    <body>
+        <%- include('../templates/header'); %>
+        <div class="search-container">
+            <form action="search" id="form">
+                <input
+                    type="search"
+                    id="search-area"
+                    name="q"
+                    placeholder="Search"
+                />
+                <button><span>🔍</span></button>
+            </form>
+        </div>
+
+        <div class="book-list-container" id="book-list"></div>
+    </body>
+</html>

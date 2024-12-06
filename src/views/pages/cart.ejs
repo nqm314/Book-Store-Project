@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/images/bookstore logo.jpg" />
+        <title>Giỏ hàng</title>
+        <link rel="stylesheet" href="/styles/cart.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+            integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+    </head>
+    <body>
+        <%- include('../templates/header'); %> <% if (typeof products !=
+        "undefined") { %>
+        <div class="container">
+            <div class="product">
+                <table>
+                    <tr class="title">
+                        <th style="width: 150px">Sản phẩm</th>
+                        <th style="width: 80px">Giá</th>
+                        <th style="width: 80px">Số lượng</th>
+                        <th style="width: 80px">Phần trăm giảm</th>
+                        <th style="width: 80px">Tạm tính</th>
+                        <th style="width: 50px"></th>
+                    </tr>
+                    <% for (product of products) { %>
+                    <tr>
+                        <td><%= product.name %></td>
+                        <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></td>
+                        <td><%= product.quantity %></td>
+                        <td><%= product.discount.percentage + '%' %></td>
+                        <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.totalTemp) %></td>
+                        <td>
+                            <a
+                                href="/remove?bookID=<%= product.bookID %>"
+                                class="fa-solid fa-trash button-hover"
+                                style="color: red"
+                            ></a>
+                        </td>
+                    </tr>
+                    <% } %>
+                </table>
+            </div>
+            <div class="total">
+                <div class="total-row title">Cộng giỏ hàng</div>
+                <div class="total-row">
+                    <div>Tạm tính</div>
+                    <div><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice) %></div>
+                </div>
+                <div class="total-row">
+                    <div>Khuyến mãi</div>
+                    <div><%= `- ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.floor(totalPrice * discount.percentage / 100))} (${discount.percentage}%)`%></div>
+                </div>
+                <div class="total-row">
+                    <div>Phí giao hàng</div>
+                    <div><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(shipfee) %></div>
+                </div>
+                <div class="total-row">
+                    <div>Tổng cộng</div>
+                    <div><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.ceil(totalPrice * (100 - discount.percentage) / 100) + shipfee) %></div>
+                </div>
+                <form action="/order" method="POST">
+                    <div class="total-row">
+                        <div>Địa chỉ đặt hàng</div>
+                        <input type="text" name="address">
+                    </div>
+                    <div style="text-align: center">
+                        <button class="payment button-hover">Thanh toán</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="dialog">
+            <div class="dialog-content">
+                <p>Xác nhận thanh toán</p>
+                <div class="dialog-buttons">
+                    <button class="confirmBtn">Đồng ý</button>
+                    <button class="cancelBtn">Hủy</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            const paymentButton = document.getElementsByClassName("payment")[0];
+            const confirmationDialog =
+                document.getElementsByClassName("dialog")[0];
+            const confirmButton = document.getElementsByClassName("confirmBtn")[0];
+            const cancelButton = document.getElementsByClassName("cancelBtn")[0];
+
+            const form = document.getElementsByTagName('form')[0]
+            form.addEventListener('submit', (e) => e.preventDefault())
+
+            paymentButton.addEventListener("click", (e) => {
+                e.preventDefault()
+                confirmationDialog.style.display = "flex";
+            });
+
+            confirmButton.addEventListener("click", () => {
+                form.submit()
+                confirmationDialog.style.display = "none";
+            });
+
+            cancelButton.addEventListener("click", () => {
+                confirmationDialog.style.display = "none";
+            });
+        </script>
+
+        <% } else { %>
+        <div class="message">
+            <h2>Hiện bạn chưa có sản phẩm nào trong giỏ hàng</h2>
+            <a href="#">Quay lại trang mua hàng</a>
+        </div>
+        <% } %>
+    </body>
+</html>

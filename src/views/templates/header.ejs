@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="/styles/header.css" />
+<div class="header">
+    <div class="logo">
+        <a href="/">
+            <img
+                src="/images/bookstore logo.jpg"
+                alt="Book Store Logo"
+                class="book-store-logo"
+            />
+        </a>
+    </div>
+    <div class="menu">
+        <a class="button-header" href="#">Sách</a>
+        <a class="button-header <%= typeof cartPage != "undefined" ? "button-header__active" : "" %>" href="/cart">Giỏ hàng</a>
+        <a class="button-header <%= typeof orderPage != "undefined" ? "button-header__active" : "" %>" href="/order">Đơn hàng</a>
+        <div class="menu-user">
+            <% if(typeof name != "undefined") { %>
+            <img
+                src="/images/user-profile-icon-free-vector.jpg"
+                alt="User Avatar"
+            />
+            <a href="/info"><%= name %></a>
+            <% } else { %>
+            <a href="/login">Đăng nhập</a> 
+            <% } %>
+        </div>
+    </div>
+</div>
