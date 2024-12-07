@@ -13,7 +13,7 @@
 }
 
 .header {
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
     background-color: #FFFFFF;
@@ -23,6 +23,7 @@
     justify-content: space-between; 
     padding: 10px 20px 10px 20px;
     box-shadow: 0 5px 5px #959d9d;
+    z-index: 10;
 }
 
 .menu {

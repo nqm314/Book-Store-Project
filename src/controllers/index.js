@@ -2,6 +2,7 @@ const orderController = require('./orderController');
 const bookController = require('./bookController');
 const authController = require('./authController');
 const cartController = require('./cartController');
+const homeController = require('./homeController');
 
 
 module.exports = {
@@ -9,4 +10,5 @@ module.exports = {
     bookController,
     authController,
     cartController,
+    homeController,
 }

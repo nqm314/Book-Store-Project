@@ -19,12 +19,13 @@ body {
     height: 100vh;
     /* background-color: #888888; */
     background-image: url("../images/bookstore\ background.jpg");
-    background-repeat: no repeat;
+    background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .search-container {
-    position: absolute;
+    position: fixed;
     top: 60px;
     width: 100%;
     background-color: #000000;
@@ -32,6 +33,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10;
 }
 
 .search-container form {
@@ -57,10 +59,25 @@ body {
     cursor: pointer;
 }
 
+
 /* Book List and Cards */
 .book-list-container {
     position: absolute;
     top: 150px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #FFFFFF;
+    width: 700px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 15px 0;
+    
+}
+
+.row {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
     gap: 2.5px;
@@ -82,6 +99,7 @@ body {
     text-align: center;
     padding: 10px;
     transition: transform 0.3s;
+    height: 280px;
 }
 
 .book-card:hover {
@@ -104,8 +122,16 @@ body {
     margin-bottom: 5px;
 }
 
-.book-card p {
+.name-book {
     font-size: 14px;
-    color: #666666;
+    color: #333;
     line-height: 1.4;
+    height: 40px;
+}
+
+.price {
+    font-size: 14px;
+    color: red;
+    line-height: 1.4;
+    font-weight: 700;
 }

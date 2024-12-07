@@ -6,20 +6,22 @@ const { customerService } = require('../services')
 
 const route = Router();
 
-route.get('/', async (req, res) => {
-    if (req.session.loggedin) {
-        if (req.session.user.role === "CUSTOMER") {
-            const user = await customerService.findCustomerByUsername(
-                req.session.user.username
-            );
-            res.locals.name = user.name;
-        } else {
-            return res.redirect("/404");
-        }
-    }
-    return res.render('pages/home')
-    return res.sendFile(path.join(__dirname, '../public/views/pages/home.html'))
-})
+route.get('/', controllers.homeController.showHomePage
+//     async (req, res) => {
+//     if (req.session.loggedin) {
+//         if (req.session.user.role === "CUSTOMER") {
+//             const user = await customerService.findCustomerByUsername(
+//                 req.session.user.username
+//             );
+//             res.locals.name = user.name;
+//         } else {
+//             return res.redirect("/404");
+//         }
+//     }
+//     return res.render('pages/home')
+//     return res.sendFile(path.join(__dirname, '../public/views/pages/home.html'))
+// }
+)
 
 // route.get('/login', (req, res) => {
 //     return res.render('pages/login')
