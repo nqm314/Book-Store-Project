@@ -5,60 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link href="../../styles/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../styles/headerStyle.css" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
 
     <script src="../../scripts/script.js" defer></script>
+    <script src="../../scripts/headerStaffScript.js" defer></script>
   </head>
 
   <body>
-    <div class="header">
-      <div class="logo">
-        <a href="/">
-          <img
-            src="../../images/bookstore logo.jpg"
-            alt="Book Store Logo"
-            class="book-store-logo"
-          />
-        </a>
-      </div>
-      <div class="menu">
-        <a href="#">Sách</a>
-        <a href="#">Giỏ hàng</a>
-        <div class="menu-user">
-          <img
-            src="../../images/user-profile-icon-free-vector.jpg"
-            alt="User Avatar"
-          />
-          <a href="/info">Người dùng</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="search-container">
-      <form action="search" id="form">
-        <input type="search" id="search-area" name="q" placeholder="Search" />
-        <button><span>🔍</span></button>
-      </form>
-      <div class="btn-add">
-        <a href="/create"><button class="btn-sty">Thêm sách</button></a>
-        <!-- Add btn  -->
-      </div>
-    </div>
+    <%- include('partial/header') %> <%- include('partial/searchBar') %>
 
     <div class="book-list-container" id="book-list"></div>
-
-    <div id="confirmation-box" class="hidden">
-      <div class="confirmation-content">
-        <p>Bạn có chắc chắn muốn xóa sách này?</p>
-        <!-- <form id="delete-form" method="POST" action="/delete"> -->
-        <!-- <input type="hidden" id="delete-book-id" name="book_id" /> -->
-        <button id="confirm-delete" class="confirm-btn">Xóa</button>
-        <!-- </form> -->
-        <button id="cancel-delete" class="cancel-btn">Hủy</button>
-      </div>
-    </div>
   </body>
 </html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi Tiết Sách</title>
+    <link rel="stylesheet" href="/styles/headerStyle.css" />
+    <link rel="stylesheet" href="/styles/bookDetailStyle.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <%- include('partial/header') %>
+    <div class="book-detail-container">
+      <div class="buy-book">
+        <img src="../../images/book.png" alt="" />
+        <div class="description-book">
+          <span>Mô tả sản phẩm:</span>
+          <p><%= book.description %></p>
+        </div>
+        <button>Thêm vào giỏ hàng</button>
+      </div>
+      <div class="book-info-container">
+        <div class="general-book-info">
+          <div class="out-info">
+            <h2><%= book.title %></h2>
+            <div class="pub-out-info">
+              <span>Nhà cung cấp:</span>
+              <span style="opacity: 0.8"
+                ><%= publisher.publishing_house %></span
+              >
+            </div>
+            <div class="author-out-info">
+              <span>Tác giả:</span>
+              <span style="opacity: 0.8"><%= authors.join(", ") %></span>
+            </div>
+          </div>
+          <div class="rating-info">
+            <%= (book.total_point / book.num_of_rating).toFixed(1) %> sao
+            <i class="fas fa-star"></i>
+            <% if ((book.total_point / book.num_of_rating) % 1 !== 0) { %>
+            <i class="fas fa-star-half-alt"></i>
+            <% } %> (<%= book.num_of_rating %> đánh giá)
+          </div>
+          <div class="price-info"><span><%= price %> đ</span></div>
+        </div>
+        <div class="detail-book-info">
+          <h2>Thông tin chi tiết</h2>
+          <div class="table-detail-info">
+            <table class="data-table">
+              <colgroup>
+                <col width="25%" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th class="tabel-label">Nhà xuất bản</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= publisher.publishing_house %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Tác giả</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= authors.join(", ") %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Năm xuất bản</th>
+                  <td>
+                    <div class="content"><%= book_de.publication_date %></div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Kích thước bao bì</th>
+                  <td>
+                    <div class="content"><%= book_de?.print_run_size %></div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Số trang</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.pages %>
+                    <!-- Số trang từ edition đầu tiên -->
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Hình thức</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de?.format %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

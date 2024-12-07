@@ -5,31 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thêm sách</title>
     <link href="../../styles/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../styles/headerStyle.css" />
     <script src="../../scripts/script.js" defer></script>
+    <script src="../../scripts/headerStaffScript.js" defer></script>
   </head>
   <body>
-    <div class="header">
-      <div class="logo">
-        <a href="/">
-          <img
-            src="../../images/bookstore logo.jpg"
-            alt="Book Store Logo"
-            class="book-store-logo"
-          />
-        </a>
-      </div>
-      <div class="menu">
-        <a href="#">Sách</a>
-        <a href="#">Giỏ hàng</a>
-        <div class="menu-user">
-          <img
-            src="../../images/user-profile-icon-free-vector.jpg"
-            alt="User Avatar"
-          />
-          <a href="/info">Người dùng</a>
-        </div>
-      </div>
-    </div>
+    <%- include('partial/header') %>
 
     <!-- Add Book Form -->
     <div class="addContainer">
@@ -39,22 +20,27 @@
           <h2 class="addTitle" style="font-size: 24px">
             Nhập thông tin sách cần thêm
           </h2>
-
+          
+          <!-- Hiển thị thông báo thành công nếu có -->
+          <% if (typeof success !== "undefined" && success) { %>
+            <div class="modal-backdrop"></div> <!-- Thêm lớp phủ mờ -->
+            <div id="success-message" class="success-message">
+              <p>Thêm sách thành công!</p>
+              <button id="ok-button" class="ok-button">OK</button>
+            </div>
+            <script>
+              document.getElementById("ok-button").addEventListener("click", function() {
+                window.location.href = "/manageBooks";
+              });
+            </script>
+          <% } %>
+          
           <!-- Nút đóng modal -->
-          <form method="POST" class="form-content" action="/create/store">
+          <form method="POST" class="form-content" action="/manageBooks/create/store">
             <!-- Hiển thị thông báo lỗi nếu có -->
-            <!-- Hiển thị thông báo lỗi nếu có -->
-            <% if (typeof error !== 'undefined' && error) { %>
-            <div class="alert-error"><%= error %></div>
+            <% if (typeof error !== "undefined" && error) { %>
+              <div class="alert-error"><%= error %></div>
             <% } %>
-            <label class="required" for="book-id">Nhập ID:</label>
-            <input
-              type="text"
-              name="book_id"
-              id="book-id"
-              placeholder="Nhập id"
-              required
-            />
 
             <label class="required" for="book-title">Tên sách:</label>
             <input
@@ -62,15 +48,17 @@
               name="title"
               id="book-title"
               placeholder="Nhập tên sách"
+              value="<%= typeof values !== 'undefined' ? values.title : '' %>"
               required
             />
 
             <label for="link-img">Link ảnh sách</label>
             <input
               type="text"
-              name="link-img"
+              name="link_img"
               id="link-img"
               placeholder="Nhập liên kết ảnh"
+              value="<%= typeof values !== 'undefined' ? values.link_img : '' %>"
             />
 
             <label for="book-description">Mô tả:</label>
@@ -79,14 +67,17 @@
               name="description"
               rows="4"
               placeholder="Nhập mô tả"
-            ></textarea>
+            ><%= typeof values !== 'undefined' ? values.description : '' %></textarea>
 
             <label for="book-chapters">Số chương:</label>
             <input
               type="number"
-              name="volumn_number"
+              min="1"
+              oninput="validity.valid||(value='')"
+              name="volume_number"
               id="book-chapters"
               placeholder="Nhập số chương"
+              value="<%= typeof values !== 'undefined' ? values.volume_number : '' %>"
             />
 
             <label class="required" for="book-type">Loại sách:</label>
@@ -96,44 +87,47 @@
               onchange="toggleSeriesInput()"
               required
             >
-              <option value="">---Chọn loại sách---</option>
-              <option>Truyện tranh</option>
-              <option>Tiểu thuyết</option>
-              <option>Sách tham khảo</option>
-              <option>Tạp chí</option>
+              <option value="" disabled selected>---Chọn loại sách---</option>
+              <option value="Truyện tranh" <%= typeof values !== 'undefined' && values.book_type === "Truyện tranh" ? 'selected' : '' %>>Truyện tranh</option>
+              <option value="Tiểu thuyết" <%= typeof values !== 'undefined' && values.book_type === "Tiểu thuyết" ? 'selected' : '' %>>Tiểu thuyết</option>
+              <option value="Sách tham khảo" <%= typeof values !== 'undefined' && values.book_type === "Sách tham khảo" ? 'selected' : '' %>>Sách tham khảo</option>
+              <option value="Tạp chí" <%= typeof values !== 'undefined' && values.book_type === "Tạp chí" ? 'selected' : '' %>>Tạp chí</option>
             </select>
 
-            <div id="series-container" style="display: none">
+            <div
+              id="series-container"
+              style="display: <%= typeof values !== 'undefined' && (values.book_type === 'Tiểu thuyết' || values.book_type === 'Sách tham khảo') ? 'block' : 'none' %>"
+            >
               <label for="series">Series:</label>
-              <input
-                type="text"
-                id="series"
-                name="series_id"
-                placeholder="Nhập series"
-              />
+              <select name="series_id" id="series">
+                <option value="" disabled selected>---Chọn Series---</option>
+                <option value="">Không có</option>
+                <% series.forEach(serie => { %>
+                  <option value="<%= serie.series_id %>"><%= serie.name %></option>
+                <% }) %>
+              </select>
             </div>
 
-            <label class="required" for="publisher">Nhà xuất bản:</label>
-            <input
-              type="text"
-              name="pub_id"
-              id="publisher"
-              placeholder="Nhập nhà xuất bản"
-              required
-            />
+            <label for="publisher" class="required">Nhà xuất bản:</label>
+            <select name="pub_id" id="publisher" required>
+              <option value="" disabled selected>---Chọn nhà xuất bản---</option>
+              <% publishers.forEach(publisher => { %>
+                <option value="<%= publisher.pub_id %>"><%= publisher.publishing_house %></option>
+              <% }) %>
+            </select>
 
             <div class="button-group">
               <button type="submit" class="add-btn">Thêm</button>
-              <button class="close-btn-modal" onclick="closeModal()">
+              <button type="button" class="close-btn-modal" onclick="closeModal()">
                 Đóng
               </button>
             </div>
+
             <div
               id="error-message"
               style="display: none; color: red; font-weight: bold"
             ></div>
           </form>
-          <!-- Nhóm nút Thêm và Đóng -->
         </div>
       </div>
     </div>

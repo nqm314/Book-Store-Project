@@ -5,30 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin</title>
     <link href="../../styles/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../../styles/headerStyle.css" />
+    <script src="../../scripts/headerStaffScript.js" defer></script>
   </head>
 
   <body>
-    <div class="header">
-      <div class="logo">
-        <a href="/"
-          ><img
-            src="../../images/bookstore logo.jpg"
-            alt="Book Store Logo"
-            class="book-store-logo"
-        /></a>
-      </div>
-      <div class="menu">
-        <a href="/">Sách</a>
-        <a href="#">Giỏ hàng</a>
-        <div class="menu-user">
-          <img
-            src="../../images/user-profile-icon-free-vector.jpg"
-            alt="User Avatar"
-          />
-          <a href="#">Quản lý</a>
-        </div>
-      </div>
-    </div>
+    <%- include('partial/header') %>
 
     <div class="profile-container">
       <div class="profile-box">

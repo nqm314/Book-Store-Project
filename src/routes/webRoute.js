@@ -22,6 +22,11 @@ route.get("/admin/info", (req, res) => {
   res.render("pages/admin");
 });
 
+// route.get("/manageBooks", (req, res) => {
+//   // return res.sendFile(path.join(__dirname, "../public/views/pages/login"));
+//   res.render("pages/manageBooks");
+// });
+
 // Create
 
 module.exports = route;

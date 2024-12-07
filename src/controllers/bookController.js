@@ -1,4 +1,8 @@
-const { bookService } = require("../services");
+const {
+  bookService,
+  publisherService,
+  bookDetalService,
+} = require("../services");
 const path = require("path");
 const db = require("../config/db");
 const getAllBook = async (req, res) => {
@@ -22,6 +26,60 @@ const getBookById = async (req, res) => {
   }
 };
 
+const getIssueById = async (req, res) => {
+  const bookId = req.params.book_id; // Extract book_id from the request parameters
+  try {
+    const book = await bookDetalService.getIssueById(bookId);
+    return res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while fetching the book.");
+  }
+};
+
+const getEditionById = async (req, res) => {
+  const bookId = req.params.book_id; // Extract book_id from the request parameters
+  try {
+    const book = await bookDetalService.getEditionById(bookId);
+    return res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while fetching the book.");
+  }
+};
+
+const getRatingById = async (req, res) => {
+  const bookId = req.params.book_id; // Extract book_id from the request parameters
+  try {
+    const book = await bookDetalService.getRatingById(bookId);
+    return res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while fetching the book.");
+  }
+};
+
+const getSeriesById = async (req, res) => {
+  const bookId = req.params.book_id; // Extract book_id from the request parameters
+  try {
+    const book = await bookDetalService.getSeriesById(bookId);
+    return res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while fetching the book.");
+  }
+};
+
+const getIsWrittenById = async (req, res) => {
+  const bookId = req.params.book_id; // Extract book_id from the request parameters
+  try {
+    const book = await bookDetalService.getAuthorById(bookId);
+    return res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while fetching the book.");
+  }
+};
 const searchBook = async (req, res) => {
   try {
     const books = await bookService.search(req.query.q);
@@ -32,80 +90,110 @@ const searchBook = async (req, res) => {
   }
 };
 
-const createBook = (req, res) => {
-  res.render("pages/create");
-};
-
-const storeBook = async (req, res) => {
-  const {
-    book_id,
-    title,
-    link_img,
-    description,
-    volume_number,
-    book_type,
-    pub_id,
-    series_id,
-  } = req.body;
-
-  if (!book_id || !title || !book_type || !pub_id) {
-    return res.render("pages/create", { error: "Thiếu thông tin cần thiết" });
-  }
-
-  // Xác định giá trị series_id cần ghi vào cơ sở dữ liệu
-  const seriesIdValue =
-    book_type === "Sách tham khảo" || book_type === "Tiểu thuyết"
-      ? series_id
-      : null; // Chỉ thêm series_id nếu là "Sách tham khảo" hoặc "Tiểu thuyết"
-
+const getAllPublisher = async (req, res) => {
   try {
-    const query = `
-      INSERT INTO book (book_id, title, description, volume_number, book_type, pub_id, series_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `;
-    await db.query(query, [
-      book_id,
-      title,
-      description,
-      volume_number,
-      book_type,
-      pub_id,
-      seriesIdValue,
-    ]);
-    res.redirect("/"); // Chuyển hướng nếu thêm thành công
-  } catch (err) {
-    console.error("Lỗi khi thêm sách:", err);
-    if (err.code === "ER_DUP_ENTRY") {
-      return res.render("pages/create", { error: "Book_ID đã tồn tại." });
-    }
-    return res.render("pages/create", {
-      error: "Lỗi khi thêm sách vào cơ sở dữ liệu",
-    });
+    const publishers = await publisherService.getAll();
+    return res.status(200).json(publishers);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
   }
 };
-
-const destroyBook = async (req, res) => {
-  const bookId = req.params.book_id; // Lấy book_id từ URL params
+const getPublisherById = async (req, res) => {
+  const bookId = req.params.pub_id; // Extract book_id from the request parameters
   try {
-    const query = "DELETE FROM book WHERE book_id = ?";
-    await db.query(query, [bookId], (err, result) => {
-      if (err) {
-        console.log("Lỗi:", err);
-        return res.status(500).send("Lỗi khi xóa sách khỏi cơ sở dữ liệu");
-      }
-      res.status(200).json({ message: "Sách đã được xóa thành công" });
-    });
-  } catch (err) {
-    console.log("Lỗi:", err);
-    return res.status(500).send("Lỗi khi xóa sách khỏi cơ sở dữ liệu");
+    const book = await bookDetalService.getPublisherById(bookId);
+    return res.status(200).json(book);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while fetching the book.");
   }
 };
 
+const getAllSeries = async (req, res) => {
+  try {
+    const series = await bookService.getAllSeries();
+    return res.status(200).json(series);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
+const getAllAuthor = async (req, res) => {
+  try {
+    const series = await bookService.getAllAuthor();
+    return res.status(200).json(series);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
+
+const getAllIsWritten = async (req, res) => {
+  try {
+    const series = await bookService.getAllIsWritten();
+    return res.status(200).json(series);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
+
+const getAllRating = async (req, res) => {
+  try {
+    const series = await bookService.getAllRating();
+    return res.status(200).json(series);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
+
+const getAllEdition = async (req, res) => {
+  try {
+    const series = await bookService.getAllEdition();
+    return res.status(200).json(series);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
+
+const getAllIssue = async (req, res) => {
+  try {
+    const series = await bookService.getAllIssue();
+    return res.status(200).json(series);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
+
+const getBookPubSer = async (req, res) => {
+  try {
+    const books = await bookService.getBookPubSer();
+    return res.status(200).json(books);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
 module.exports = {
   getAllBook,
   searchBook,
-  createBook,
-  storeBook,
-  destroyBook,
   getBookById,
+  getAllPublisher,
+  getAllSeries,
+  getBookPubSer,
+  getAllAuthor,
+  getAllEdition,
+  getAllIssue,
+  getAllIsWritten,
+  getAllRating,
+  getPublisherById,
+  getIssueById,
+  getEditionById,
+  getRatingById,
+  getSeriesById,
+  getIsWrittenById,
 };

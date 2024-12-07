@@ -1,0 +1,142 @@
+.book-detail-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f4f4f4;
+  margin-top: 60px;
+  width: 90%;
+}
+
+.buy-book {
+  width: 30%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.buy-book img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.description-book {
+  margin-bottom: 20px;
+}
+
+.description-book span {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.description-book p {
+  color: #333;
+  line-height: 1.6;
+}
+
+.buy-book button {
+  background-color: #ff5733;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.buy-book button:hover {
+  background-color: #e14e2a;
+}
+
+.book-info-container {
+  width: 65%;
+  background: #f4f4f4;
+  /* padding: 20px; */
+  /* border-radius: 10px; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.general-book-info {
+  margin-bottom: 100px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.out-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-left: 20px;
+  flex-direction: column;
+}
+
+.out-info h2 {
+  padding-bottom: 10px;
+}
+
+.pub-out-info,
+.author-out-info {
+  padding-top: 10px;
+}
+
+.rating-info {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #ff9900;
+  padding-left: 20px;
+}
+
+.rating-info i {
+  color: #ff9900;
+}
+
+.price-info {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e14e2a;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
+.detail-book-info {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.detail-book-info h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-detail-info {
+  padding: 20px;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.data-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+}
+
+.content {
+  display: block;
+}
