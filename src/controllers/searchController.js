@@ -1,52 +1,44 @@
+const { response } = require("express");
+const db = require("../config/db");
+const bookService = require("../services/bookService");
+const publisherService = require("../services/publisherService");
+
 const searchFieldBook = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = 30;
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
-
+  const field = req.query;
+  // console.log(field);
   try {
-    // Lấy danh sách từ API
-    const [publishers, authors, books, editions, issues, is_writtens, ratings] =
-      await Promise.all([
-        fetch("http://localhost:5000/api/publisher/get-all").then((response) =>
-          response.json()
-        ),
-        fetch("http://localhost:5000/api/author/get-all").then((response) =>
-          response.json()
-        ),
-        fetch("http://localhost:5000/api/book/get-all").then((response) =>
-          response.json()
-        ),
-        fetch("http://localhost:5000/api/book/edition/get-all").then(
-          (response) => response.json()
-        ),
-        fetch("http://localhost:5000/api/book/issue/get-all").then((response) =>
-          response.json()
-        ),
-        fetch("http://localhost:5000/api/book/is-written/get-all").then(
-          (response) => response.json()
-        ),
-        fetch("http://localhost:5000/api/book/rating/get-all").then(
-          (response) => response.json()
-        ),
-      ]);
+    const query = {
+      price: req.query.price || "",
+      pub_id: req.query.pub_id || "",
+      author_id: req.query.author_id || "",
+      sort: req.query.sort || "",
+    };
+    const [publishers, authors, books, is_writtens] = await Promise.all([
+      publisherService.getAll(),
+      bookService.getAllAuthor(),
+      bookService.getAllBookInfo(field),
+      bookService.getAllIsWritten(),
+    ]);
 
+    // Thực hiện phân trang
+    const totalBooks = books.length;
+    const totalPages = Math.ceil(totalBooks / limit);
     const paginatedBooks = books.slice(startIndex, endIndex);
-    const totalPages = Math.ceil(books.length / limit);
 
-    console.log(authors);
-    // Render trang searchFieldBook với dữ liệu từ API
+    // Render trang searchFieldBook với dữ liệu đã lọc
     res.render("pages/searchFieldBook", {
       publishers: publishers,
       authors: authors,
       books: books,
-      editions: editions,
-      issues: issues,
       is_writtens: is_writtens,
-      ratings: ratings,
       paginatedBooks: paginatedBooks,
       currentPage: page,
       totalPages: totalPages,
+      query: query,
     });
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -54,10 +46,10 @@ const searchFieldBook = async (req, res) => {
       publishers: [],
       authors: [],
       books: [],
-      editions: [],
-      issues: [],
       is_writtens: [],
-      ratings: [],
+      paginatedBooks: [],
+      currentPage: 1,
+      totalPages: 1,
     });
   }
 };
@@ -65,9 +57,7 @@ const searchFieldBook = async (req, res) => {
 const getBookDetails = async (req, res) => {
   try {
     const bookId = req.params.book_id;
-    const book = await fetch(`http://localhost:5000/api/book/${bookId}`).then(
-      (response) => response.json()
-    );
+    const selectedVersion = req.query.version || ""; // Lấy giá trị từ query string
     const authors = await fetch(
       `http://localhost:5000/api/book/is-written/${bookId}`
     ).then((response) => response.json());
@@ -77,28 +67,25 @@ const getBookDetails = async (req, res) => {
     const issues = await fetch(
       `http://localhost:5000/api/book/issue/${bookId}`
     ).then((response) => response.json());
-    const publisher = await fetch(
-      `http://localhost:5000/api/publisher/${bookId}`
+    const edition = await fetch(
+      `http://localhost:5000/api/book/edition/${bookId}/${selectedVersion}`
     ).then((response) => response.json());
-
+    const issue = await fetch(
+      `http://localhost:5000/api/book/issue/${bookId}/${selectedVersion}`
+    ).then((response) => response.json());
     const authorsList = authors.map(
       (author) => `${author.lastname} ${author.firstname}`
     );
-    const prices = [
-      ...editions.map((edition) => edition.price),
-      ...issues.map((issue) => issue.price),
-    ];
-    const price = prices.length > 0 ? Math.min(...prices) : null;
+
+    const book_des =
+      bookId.startsWith("CO") || bookId.startsWith("MA") ? issues : editions;
     const book_de =
-      book[0].book_type === "Truyện tranh" || book[0].book_type === "Tạp chí"
-        ? issues
-        : editions;
+      bookId.startsWith("CO") || bookId.startsWith("MA") ? issue : edition;
     res.render("pages/bookDetail", {
-      book: book[0],
       authors: authorsList,
-      publisher: publisher[0],
-      price: price,
+      book_des: book_des,
       book_de: book_de[0],
+      selectedVersion, // Truyền giá trị này qua view
     });
   } catch (error) {
     console.error("Error fetching book details:", error);

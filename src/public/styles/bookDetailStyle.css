@@ -60,7 +60,7 @@
 }
 
 .general-book-info {
-  margin-bottom: 100px;
+  margin-bottom: 70px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -139,4 +139,32 @@
 
 .content {
   display: block;
+}
+
+/*  */
+.version-select {
+  margin-bottom: 15px;
+}
+
+.version-select label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.version-select select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+.version-select select:focus {
+  border-color: #ff5733;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 87, 51, 0.5);
+}
+
+.version-select option {
+  padding: 10px;
 }

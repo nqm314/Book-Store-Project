@@ -1,10 +1,14 @@
 const {
   bookService,
   publisherService,
-  bookDetalService,
+  bookDetailService,
 } = require("../services");
 const path = require("path");
 const db = require("../config/db");
+const {
+  getDetailEditionById,
+  getDetailIssueById,
+} = require("../services/bookDetailService");
 const getAllBook = async (req, res) => {
   try {
     const books = await bookService.getAll();
@@ -29,7 +33,7 @@ const getBookById = async (req, res) => {
 const getIssueById = async (req, res) => {
   const bookId = req.params.book_id; // Extract book_id from the request parameters
   try {
-    const book = await bookDetalService.getIssueById(bookId);
+    const book = await bookDetailService.getIssueById(bookId);
     return res.status(200).json(book);
   } catch (error) {
     console.error(error);
@@ -40,7 +44,7 @@ const getIssueById = async (req, res) => {
 const getEditionById = async (req, res) => {
   const bookId = req.params.book_id; // Extract book_id from the request parameters
   try {
-    const book = await bookDetalService.getEditionById(bookId);
+    const book = await bookDetailService.getEditionById(bookId);
     return res.status(200).json(book);
   } catch (error) {
     console.error(error);
@@ -51,7 +55,7 @@ const getEditionById = async (req, res) => {
 const getRatingById = async (req, res) => {
   const bookId = req.params.book_id; // Extract book_id from the request parameters
   try {
-    const book = await bookDetalService.getRatingById(bookId);
+    const book = await bookDetailService.getRatingById(bookId);
     return res.status(200).json(book);
   } catch (error) {
     console.error(error);
@@ -62,7 +66,7 @@ const getRatingById = async (req, res) => {
 const getSeriesById = async (req, res) => {
   const bookId = req.params.book_id; // Extract book_id from the request parameters
   try {
-    const book = await bookDetalService.getSeriesById(bookId);
+    const book = await bookDetailService.getSeriesById(bookId);
     return res.status(200).json(book);
   } catch (error) {
     console.error(error);
@@ -73,7 +77,7 @@ const getSeriesById = async (req, res) => {
 const getIsWrittenById = async (req, res) => {
   const bookId = req.params.book_id; // Extract book_id from the request parameters
   try {
-    const book = await bookDetalService.getAuthorById(bookId);
+    const book = await bookDetailService.getAuthorById(bookId);
     return res.status(200).json(book);
   } catch (error) {
     console.error(error);
@@ -102,7 +106,7 @@ const getAllPublisher = async (req, res) => {
 const getPublisherById = async (req, res) => {
   const bookId = req.params.pub_id; // Extract book_id from the request parameters
   try {
-    const book = await bookDetalService.getPublisherById(bookId);
+    const book = await bookDetailService.getPublisherById(bookId);
     return res.status(200).json(book);
   } catch (error) {
     console.error(error);
@@ -178,6 +182,43 @@ const getBookPubSer = async (req, res) => {
     return res.status(500);
   }
 };
+
+const getEdition = async (req, res) => {
+  try {
+    const books = await bookService.getEdition();
+    return res.status(200).json(books);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
+
+// Issue, Edition
+const getDetailEdition = async (req, res) => {
+  try {
+    const books = await bookDetailService.getDetailEditionById(
+      req.params.book_id,
+      req.params.isbn
+    );
+    return res.status(200).json(books);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
+
+const getDetailIssue = async (req, res) => {
+  try {
+    const books = await bookDetailService.getDetailIssueById(
+      req.params.book_id,
+      req.params.issn
+    );
+    return res.status(200).json(books);
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
+  }
+};
 module.exports = {
   getAllBook,
   searchBook,
@@ -196,4 +237,7 @@ module.exports = {
   getRatingById,
   getSeriesById,
   getIsWrittenById,
+  getEdition,
+  getDetailEdition,
+  getDetailIssue,
 };

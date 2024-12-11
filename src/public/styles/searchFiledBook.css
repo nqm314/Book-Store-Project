@@ -93,32 +93,36 @@
   gap: 15px;
 }
 
-.field-container ol li input {
-  margin: 10px 20px 10px 20px;
+.field-type {
+  font-weight: bold;
+  margin-bottom: 10px;
 }
-
-.field-container .field-value ol {
-  list-style: none;
+.field-value select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: #fff;
+  background-position: right 10px center;
+  background-size: 16px 16px;
 }
-
-.field-container .field-value ol li {
-  opacity: 0.7;
+.field-value select:focus {
+  border-color: #ff5733;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 87, 51, 0.5);
 }
-.field-value ol {
-  list-style: none;
-  padding-left: 0;
+.btn-filter {
+  background-color: #ff5733;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
-
-.field-value li {
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center; /* Đảm bảo checkbox và văn bản nằm cùng hàng */
-}
-
-.field-value li p {
-  margin-left: 8px; /* Khoảng cách giữa checkbox và văn bản */
-  margin-bottom: 0; /* Loại bỏ khoảng cách mặc định của thẻ p */
-  line-height: 1.5;
+.btn-filter:hover {
+  background-color: #e14e2a;
 }
 
 .field-container .toggle-view {
@@ -167,7 +171,7 @@
   margin-bottom: 15px;
 }
 
-.books-container .sort-by {
+.field-container .sort-by {
   margin-bottom: 20px;
   font-size: 14px;
   display: flex;
@@ -175,8 +179,8 @@
   gap: 10px;
 }
 
-.books-container .sort-by select {
-  padding: 8px;
+.field-container .sort-by select {
+  padding: 6px;
   border: 1px solid #cccccc;
   border-radius: 5px;
   font-size: 14px;
@@ -289,4 +293,22 @@
 
 .books-container .pagination a:hover:not(.active) {
   background-color: #ddd;
+}
+
+.books-container .filtered-values {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.books-container .filter-badge {
+  background-color: #d6f0ff;
+  color: #0056b3;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

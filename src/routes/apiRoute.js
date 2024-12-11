@@ -36,4 +36,15 @@ route.get("/book/edition/:book_id", controllers.bookController.getEditionById);
 route.get("/book/issue/:book_id", controllers.bookController.getIssueById);
 route.get("/publisher/:pub_id", controllers.bookController.getPublisherById);
 route.get("/book/rating/:book_id", controllers.bookController.getRatingById);
+
+// Issue, Edition
+route.get(
+  "/book/edition/:book_id/:isbn",
+  controllers.bookController.getDetailEdition
+);
+
+route.get(
+  "/book/issue/:book_id/:issn",
+  controllers.bookController.getDetailIssue
+);
 module.exports = route;
