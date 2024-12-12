@@ -13,13 +13,25 @@ const totalPages = async (customer_id) => {
     }
 }
 
-const getOrderByCustomer = async (customer_id, page = 1) => {
+const getOrderByCustomer = async (customer_id, page = 1, start_date, end_date) => {
     try {
         const limit = 10;
         const offset = (Number(page) - 1) * limit
+
+        if(!start_date) {
+            start_date = '2024-01-01'
+        }
+        if(!end_date) {
+            const today = new Date();
+            end_date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+        }
+
         const result = await db.execute(
-            `SELECT * FROM orders WHERE customer_id = ? ORDER BY date DESC, order_id DESC LIMIT ${limit} OFFSET ${offset}`,
-            [customer_id]
+            `SELECT * FROM orders 
+            WHERE customer_id = ? AND date BETWEEN ? AND ?
+            ORDER BY date DESC, order_id DESC 
+            LIMIT ${limit} OFFSET ${offset}`,
+            [customer_id, start_date, end_date]
         );
         for (const data of result[0]) {
             const date = new Date(data.date);

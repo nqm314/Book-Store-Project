@@ -19,9 +19,13 @@
                 src="/images/user-profile-icon-free-vector.jpg"
                 alt="User Avatar"
             />
-            <a href="/info"><%= name %></a>
+            <div class="user"><%= name %></div>
+            <div class="user-dropdown" id="user-dropdown">
+                <a href="/info">Thông tin người dùng</a>
+                <a href="/logout">Đăng xuất</a>
+            </div>
             <% } else { %>
-            <a href="/login">Đăng nhập</a> 
+            <a class="user" href="/login">Đăng nhập</a> 
             <% } %>
         </div>
     </div>

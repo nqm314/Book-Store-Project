@@ -24,114 +24,41 @@ body {
     background-attachment: fixed;
 }
 
-.search-container {
-    position: fixed;
-    top: 60px;
+.content-container {
+    height: 100%;
     width: 100%;
-    background-color: #000000;
-    padding: 15px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 10;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
-.search-container form {
-    display: flex;
-    background-color: white;
-    border-radius: 25px;
-    overflow: hidden;
-    width: 60%;
-    max-width: 600px;
-}
-
-.search-container form input {
-    width: 100%;
-    padding: 7px;
-    border: none;
-    outline: none;
-}
-
-.search-container form button {
-    background-color: transparent;
-    border: none;
-    padding: 7px;
-    cursor: pointer;
-}
-
-
-/* Book List and Cards */
-.book-list-container {
-    position: absolute;
-    top: 150px;
-}
-
-.title {
-    font-size: 16px;
+.content {
+    color: #fff;
     font-weight: 700;
-    background-color: #FFFFFF;
-    width: 700px;
-    border-radius: 5px;
-    text-align: center;
-    padding: 15px 0;
-    
+    font-size: 64px;
+    margin-bottom: 10px;
 }
 
-.row {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-    gap: 2.5px;
-    padding: 5px;
-    max-width: 80%; /* Giới hạn chiều rộng container */
+.slogan {
+    color: #fff;
+    font-weight: 500;
+    font-size: 32px;
+    margin-bottom: 24px;
 }
 
-.column {
-    float: left;
-    width: 100%;
-    padding: 10px 5px;
+.button {
+    color: #fff;
+    background-color: #000;
+    padding: 16px 24px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 20px;
+    text-decoration: none;
+    margin-top: 42px;
 }
 
-.book-card {
-    background-color: #FFFFFF;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: auto;
-    text-align: center;
-    padding: 10px;
-    transition: transform 0.3s;
-    height: 280px;
-}
-
-.book-card:hover {
-    transform: scaleX(105%) scaleY(105%) scaleZ(105%);
-}
-
-.poster {
-    width: 135px;
-    height: 195px;
-    border-radius: 10px;
-    margin-bottom: 2.5px;
-    margin-left: 2.5px;
-    margin-right: 2.5px;
-}
-
-.book-card h3 {
-    color: #333333;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.name-book {
-    font-size: 14px;
-    color: #333;
-    line-height: 1.4;
-    height: 40px;
-}
-
-.price {
-    font-size: 14px;
-    color: red;
-    line-height: 1.4;
-    font-weight: 700;
+.button:hover {
+    background-color: #333;
 }

@@ -9,12 +9,14 @@ const showOrderPage = async (req, res) => {
     else if (page && page > totalPages) page = totalPages;
     else if (!page) page = 1;
 
-    const orders = await orderService.getOrderByCustomer(customer_id, page);
+    const orders = await orderService.getOrderByCustomer(customer_id, page, req.query.start_date, req.query.end_date);
     if (orders.length === 0) res.locals.notFound = true;
     else {
         res.locals.orders = orders;
         res.locals.totalPages = Number(totalPages);
         res.locals.currentPage = Number(page);
+        res.locals.start_date = req.query.start_date;
+        res.locals.end_date = req.query.end_date;
     }
 
     res.locals.orderPage = true;

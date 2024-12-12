@@ -23,7 +23,7 @@
     justify-content: space-between; 
     padding: 10px 20px 10px 20px;
     box-shadow: 0 5px 5px #959d9d;
-    z-index: 10;
+    z-index: 2;
 }
 
 .menu {
@@ -51,12 +51,49 @@
     gap: 5px; 
 }
 
-.menu-user a{
+.menu-user .user{
+    font-weight: bolder;
     color: #333333;
 }
 
-.menu-user a:hover{
+.menu-user .user:hover{
     color: #727272;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 2px;
+    background-color: #ffffff;
+    color: #333333;
+    border-radius: 2px;
+    box-shadow: -8px 8px 16px rgba(0, 0, 0, 0.2);
+    width: 14em;
+}
+
+.menu-user:hover > .user-dropdown {
+    display: block;
+}
+
+.user-dropdown a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #333333; /* Chữ màu đen xám */
+    border-bottom: 1px solid #e0e0e0; /* Dấu gạch ngăn cách giữa các mục */
+}
+  
+.menu-user .user-dropdown a:hover {
+    background-color: #f1f1f1; /* Màu nền khi hover */
+}
+
+.user-dropdown a:last-child {
+    border-bottom: none;
+}
+
+.user-dropdown a:last-child:hover {
+    color: red;
 }
 
 .button-header {
@@ -77,3 +114,4 @@
     border-radius: 20px;
     background-color: #333333;
 }
+

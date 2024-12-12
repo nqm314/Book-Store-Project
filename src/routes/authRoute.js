@@ -9,8 +9,12 @@ route.get('/login', authMiddleware.isAuthCustomer, authController.showLoginCusto
 route.post('/login', authController.loginCustomer)
 
 
+//Admin Login
+route.get('/admin/login', authMiddleware.isAuthAdmin, authController.showLoginCustomer)
+route.post('/admin/login', authController.loginStaff)
 
-route.post('/logout', authController.logout)
+
+route.get('/logout', authController.logout)
 
 route.get('/info', authMiddleware.isCustomer, authController.showInfo)
 

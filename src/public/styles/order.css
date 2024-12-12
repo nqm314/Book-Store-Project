@@ -4,6 +4,28 @@
     text-align: center;
     width: 100%;
     margin-top: 60px;
+    margin-bottom: 40px;
+}
+
+.filter {
+    display: flex;
+    position: absolute; /* hoặc absolute, fixed */
+    top: 150px;
+    right: 15%;
+    gap: 10px;
+}
+
+.filter label {
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+}
+
+.filter input[type="date"] {
+    font-size: 16px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px solid #333;
 }
 
 table, tr{

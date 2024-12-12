@@ -6,34 +6,28 @@
         <link rel="icon" href="/images/bookstore logo.jpg">
         <title>Home</title>
         <link href="/styles/home.css" rel="stylesheet" type="text/css" />
-        <!-- <script src="/scripts/script.js" defer></script> -->
     </head>
 
     <body>
         <%- include('../templates/header'); %>
-        <div class="search-container">
-            <form action="search" id="form">
-                <input
-                    type="search"
-                    id="search-area"
-                    name="q"
-                    placeholder="Search"
-                />
-                <button><span>🔍</span></button>
-            </form>
+        <%- include('../templates/searchBar'); %>
+        <div class="content-container">
+            <p class="content">BOOK STORE</p>
+            <p class="slogan">Nhà sách của tri thức, cánh cửa của ước mơ</p>
+            <a href="#" class="button">Xem những cuốn sách bạn yêu thích</a>
         </div>
-
-        <div class="book-list-container" id="book-list">
+        <!-- <div class="book-list-container">
             <div class="title">Top truyện tranh được đánh giá cao</div>
-            <div class="row">
-                <% for(const num in comic) { %> 
-                    <div class="column">
-                        <div class="book-card">
-                            <img class="poster" src="/images/book.png">
-                            <p class="name-book"><%= comic[num].title %></p>
+            <div class="book-list">
+                <% for(const num in comic) { %>
+                    <a href="/book/CO0001" class="book-item">
+                        <img class="poster" src="/images/book.png">
+                        <div>
+                            <h3>Doraemon</h3>
+                            <p class="author-info"><strong>Tác giả:</strong> <span></span></p>
                             <p class="price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(comic[num].price) %></p>
                         </div>
-                    </div>
+                    </a>
                 <% } %>
             </div>
             <div class="title">Top sách tham khảo được đánh giá cao</div>
@@ -71,7 +65,7 @@
                         </div>
                     </div>
                 <% } %>
-            </div>
-        </div>
+            </div> -->
+        <!-- </div> -->
     </body>
 </html>

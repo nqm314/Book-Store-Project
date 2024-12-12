@@ -34,7 +34,16 @@ const isStaff = async (req, res, next) => {
 
 const isAuthCustomer = async (req, res, next) => {
     if (req.session.loggedin) {
-        res.redirect('/')
+        if(req.session.user.role === 'CUSTOMER') {
+            res.redirect('/')
+        } else {
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+            next()
+        }
     } else {
         next()
     }
@@ -42,7 +51,16 @@ const isAuthCustomer = async (req, res, next) => {
 
 const isAuthAdmin = async (req, res, next) => {
     if (req.session.loggedin) {
-        res.redirect('/admin')
+        if(req.session.user.role === 'STAFF') {
+            res.redirect('/admin')
+        } else {
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error(err);
+                }
+            });
+            next()
+        }
     } else {
         next()
     }

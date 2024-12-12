@@ -10,6 +10,26 @@
     <body>
         <%- include('../templates/header'); %>
         <h2 class="title">Thông tin đơn hàng</h2>
+        <form action="/order" class="filter" id="filter">
+            <label for="start_date">Từ ngày</label>
+            <input 
+                type="date" 
+                name="start_date" 
+                min="2024-01-01" 
+                max="<%= new Date().toISOString().split('T')[0] %>" 
+                value="<%= typeof start_date != "undefined" ? start_date : "2024-01-01" %>"
+                onchange="document.getElementById('filter').submit()"
+            >
+            <label for="end_date">đến</label>
+            <input 
+                type="date" 
+                name="end_date" 
+                min="2024-01-01" 
+                max="<%= new Date().toISOString().split('T')[0] %>" value="<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>"
+                onchange="document.getElementById('filter').submit()"
+            >
+        </form>
+        </div>
         <table>
             <tr>
                 <th>STT</th>
@@ -34,13 +54,25 @@
         </table>
         <div class="center">
             <div class="pagination">
-                <a href="/order?page=1">&laquo;</a>
-                <a href="/order?page=<%= currentPage - 2 %>" <%= currentPage - 2 <= 0 ? 'style=display:none;' : '' %>><%= currentPage - 2 %></a>
-                <a href="/order?page=<%= currentPage - 1 %>" <%= currentPage - 1 <= 0 ? 'style=display:none;' : '' %>><%= currentPage - 1 %></a>
+                <a href="/order?page=1&start_date=<%= typeof start_date != "undefined" ? start_date : "2024-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>">
+                    &laquo;
+                </a>
+                <a href="/order?page=<%= currentPage - 2 %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2024-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>" <%= currentPage - 2 <= 0 ? 'style=display:none;' : '' %>>
+                    <%= currentPage - 2 %>
+                </a>
+                <a href="/order?page=<%= currentPage - 1 %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2024-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>" <%= currentPage - 1 <= 0 ? 'style=display:none;' : '' %>>
+                    <%= currentPage - 1 %>
+                </a>
                 <a class="active" href="#"><%= currentPage %></a>
-                <a href="/order?page=<%= currentPage + 1 %>" <%= currentPage + 1 > totalPages ? 'style=display:none;' : '' %>><%= currentPage + 1 %></a>
-                <a href="/order?page=<%= currentPage + 2 %>" <%= currentPage + 2 > totalPages ? 'style=display:none;' : '' %>><%= currentPage + 2 %></a>
-                <a href="/order?page=<%= totalPages %>">&raquo;</a>
+                <a href="/order?page=<%= currentPage + 1 %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2024-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>" <%= currentPage + 1 > totalPages ? 'style=display:none;' : '' %>>
+                    <%= currentPage + 1 %>
+                </a>
+                <a href="/order?page=<%= currentPage + 2 %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2024-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>" <%= currentPage + 2 > totalPages ? 'style=display:none;' : '' %>>
+                    <%= currentPage + 2 %>
+                </a>
+                <a href="/order?page=<%= totalPages %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2024-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>">
+                    &raquo;
+                </a>
             </div>
         </div>
         <% } else { %>
