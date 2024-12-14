@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/images/bookstore logo.jpg" />
+    <title>Tìm kiếm sách</title>
+    <link rel="stylesheet" href="/styles/searchFiledBook.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="/scripts/searchFieldScript.js" defer></script>
+  </head>
+  <body>
+    <%- include('../templates/header'); %>
+    <%- include('../templates/searchBar'); %>
+
+    <div class="search-field-container">
+      <div class="field-container">
+        <div class="field-content">LỌC THEO</div>
+        <form>
+          <div class="field-price">
+            <div class="field-type">Giá:</div>
+            <div class="sort-by">
+              <label for="sort">Sắp xếp theo:</label>
+              <select name="sort" id="sort">
+                <option value="" <%= query.sort === '' ? 'selected' : '' %>>None</option>
+                <option value="asc" <%= query.sort === 'asc' ? 'selected' : '' %>>Tăng dần</option>
+                <option value="desc" <%= query.sort === 'desc' ? 'selected' : '' %>>Giảm dần</option>
+              </select>
+            </div>
+            <div class="field-value">
+              <select name="price">
+                <option value="" <%= query.price === '' ? 'selected' : '' %>>None</option>
+                <option value="0-150000" <%= query.price === '0-150000' ? 'selected' : '' %>>0đ - 150.000đ</option>
+                <option value="150000-300000" <%= query.price === '150000-300000' ? 'selected' : '' %>>150.000đ - 300.000đ</option>
+                <option value="300000-500000" <%= query.price === '300000-500000' ? 'selected' : '' %>>300.000đ - 500.000đ</option>
+                <option value="500000-700000" <%= query.price === '500000-700000' ? 'selected' : '' %>>500.000đ - 700.000đ</option>
+                <option value="700000" <%= query.price === '700000' ? 'selected' : '' %>>700.000đ trở lên</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-pub">
+            <div class="field-type">Nhà xuất bản:</div>
+            <div class="field-value">
+              <select id="publisher-list" name="pub_id">
+                <option value="" <%= query.publishing_house === '' ? 'selected' : '' %>>None</option>
+                <% publishers.forEach(publisher => { %>
+                <option 
+                  value="<%= publisher.pub_id %>" 
+                  <%= query.pub_id === publisher.pub_id ? 'selected' : '' %>>
+                  <%= publisher.publishing_house %>
+                </option>
+                <% }) %>
+              </select>
+            </div>
+          </div>
+          <div class="field-author">
+            <div class="field-type">Tác Giả:</div>
+            <div class="field-value">
+              <select id="author-list" name="author_id">
+                <option value="" <%= query.author_id === '' ? 'selected' : '' %>>None</option>
+                <% authors.forEach(author => { %>
+                <option 
+                  value="<%= author.author_id %>" 
+                  <%= query.author_id === author.author_id ? 'selected' : '' %>>
+                  <%= author.lastname + " " + author.firstname %>
+                </option>
+                <% }) %>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-filter">Lọc</button>
+        </form>
+      </div>
+
+      <div class="books-container">
+        <div class="result-search">KẾT QUẢ TÌM KIẾM: <%= books.length %> sách</div>
+        <div class="filtered-values">
+          <% if (query.price) { %>
+          <div class="filter-badge">Giá: <strong><%= query.price %></strong></div>
+          <% } %>
+          <% if (query.pub_id) { %>
+          <div class="filter-badge">
+            Nhà xuất bản: 
+            <strong>
+              <%= publishers.find(publisher => publisher.pub_id === query.pub_id)?.publishing_house || "Không rõ" %>
+            </strong>
+          </div>
+          <% } %>
+          <% if (query.author_id) { %>
+          <div class="filter-badge">
+            Tác giả: 
+            <strong>
+              <%= authors.find(author => author.author_id === query.author_id)?.lastname + " " +
+                authors.find(author => author.author_id === query.author_id)?.firstname || "Không rõ" %>
+            </strong>
+          </div>
+          <% } %>
+        </div>
+        <div class="book-list-result">
+          <% paginatedBooks.forEach(book => {
+            const authorsForBook = is_writtens
+              .filter(written => written.book_id === book.book_id)
+              .map(written => {
+                const author = authors.find(author => author.author_id === written.author_id);
+                return `${author.lastname} ${author.firstname}`;
+              });
+
+            const price = book.price;
+          %>
+          <div class="book-item">
+            <a href="/search/book/<%= book.book_id %>">
+              <img src="../../images/book.png" alt="Book <%= book.book_id %>" class="book-cover" />
+            </a>
+            <div class="book-info">
+              <h3><%= book.title %></h3>
+              <div class="author-info"><strong>Tác giả:</strong> <span><%= authorsForBook.join(", ") %></span></div>
+              <p class="price">Giá: <%= price ? price.toLocaleString() : "Không có thông tin" %> VND</p>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+        <div class="pagination">
+          <% if (currentPage > 1) { %>
+          <a
+            href="?page=<%= currentPage - 1 %>&<%= new URLSearchParams(query).toString() %>"
+            >Trang trước</a
+          >
+          <% } %>
+        
+          <a href="?page=1&<%= new URLSearchParams(query).toString() %>">1</a>
+        
+          <% if (currentPage > 4) { %>
+          <span>...</span>
+          <% } %> 
+          <% for (let i = currentPage - 2; i <= currentPage + 2; i++) { %>
+          <% if (i > 1 && i < totalPages) { %>
+          <a
+            href="?page=<%= i %>&<%= new URLSearchParams(query).toString() %>"
+            class="<%= i === currentPage ? 'active' : '' %>"
+            ><%= i %></a
+          >
+          <% } %>
+          <% } %> 
+          <% if (currentPage < totalPages - 3) { %>
+          <span>...</span>
+          <% } %> 
+          <% if (totalPages > 1) { %>
+          <a href="?page=<%= totalPages %>&<%= new URLSearchParams(query).toString() %>"
+            ><%= totalPages %></a
+          >
+          <% } %> 
+          <% if (currentPage < totalPages) { %>
+          <a
+            href="?page=<%= currentPage + 1 %>&<%= new URLSearchParams(query).toString() %>"
+            >Trang sau</a
+          >
+          <% } %>
+        </div>
+        
+      </div>
+    </div>
+    
+  </body>
+</html>

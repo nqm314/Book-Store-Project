@@ -1,4 +1,4 @@
-const { cartService } = require('../services');
+const { cartService, bookDetailService } = require('../services');
 
 const showCartPage = async (req, res) => {
     const products = req.session.cart?.products;
@@ -46,6 +46,15 @@ const showCartPage = async (req, res) => {
     }
     res.locals.cartPage = true;
     return res.render('pages/cart');
+}
+
+const addToCart = async (req, res) => {
+    try {
+        req.session.cart.products.push(req.body);
+        res.status(200).json();
+    } catch(error) {
+        res.statu(500).json();
+    }
 }
 
 const removeProduct = async (req, res) => {
@@ -100,4 +109,5 @@ module.exports = {
     showCartPage,
     removeProduct,
     createCart,
+    addToCart,
 }

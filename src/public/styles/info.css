@@ -17,8 +17,9 @@ body {
     height: 100vh;
     /* background-color: #888888; */
     background-image: url("../images/bookstore\ background.jpg");
-    background-repeat: no repeat;
+    background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .profile-container {

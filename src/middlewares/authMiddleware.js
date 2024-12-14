@@ -66,9 +66,23 @@ const isAuthAdmin = async (req, res, next) => {
     }
 };
 
+const checkLogin = async (req, res, next) => {
+    if (req.session.loggedin) {
+        if (req.session.user.role === "CUSTOMER") {
+            const user = await customerService.findCustomerByUsername(
+                req.session.user.username
+            );
+            res.locals.name = user.name;
+            return next();
+        }
+    }
+    next()
+}
+
 module.exports = {
     isCustomer,
     isStaff,
     isAuthCustomer,
     isAuthAdmin,
+    checkLogin,
 };

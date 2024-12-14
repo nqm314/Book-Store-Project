@@ -1,0 +1,10 @@
+const express = require("express");
+const route = express.Router();
+const createController = require("../controllers/bookController");
+const manageBooksController = require("../controllers/manageBooksController");
+const path = require("path");
+// router.get("/create", createController.createBook);
+route.get("/create", manageBooksController.createBook);
+route.post("/create/store", manageBooksController.storeBook);
+route.get("/", manageBooksController.showBooks);
+module.exports = route;

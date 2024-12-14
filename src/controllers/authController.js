@@ -17,6 +17,13 @@ const loginCustomer = async (req, res) => {
             username: username,
             role: "CUSTOMER",
         };
+        req.session.cart = {
+            products: [],
+            totalPrice: null,
+            orderDiscount: null,
+            levelDiscount: null,
+            shipfee: null,
+        };
         return res.redirect("/");
     }
     return res.render("pages/login", {
@@ -57,6 +64,7 @@ const logout = async (req, res) => {
         return res.redirect("/login");
     }
 };
+
 
 const showInfo = async (req, res) => {
     const customerID = req.session.user.customer_id;

@@ -1,12 +1,12 @@
 const { Router } = require("express");
 const path = require("path");
+
 const controllers = require("../controllers")
 const { authMiddleware } = require("../middlewares")
-const { customerService } = require('../services')
 
 const route = Router();
 
-route.get('/', controllers.homeController.showHomePage
+route.get('/', authMiddleware.checkLogin, controllers.homeController.showHomePage)
 //     async (req, res) => {
 //     if (req.session.loggedin) {
 //         if (req.session.user.role === "CUSTOMER") {
@@ -21,7 +21,6 @@ route.get('/', controllers.homeController.showHomePage
 //     return res.render('pages/home')
 //     return res.sendFile(path.join(__dirname, '../public/views/pages/home.html'))
 // }
-)
 
 // route.get('/login', (req, res) => {
 //     return res.render('pages/login')
@@ -31,11 +30,35 @@ route.get('/', controllers.homeController.showHomePage
 // route.get('/info', (req, res) => {
 //     return res.sendFile(path.join(__dirname, "../public/views/pages/customer.html"));
 // });
+// =======
+// const createController = require("../controllers/bookController");
+// const route = Router();
 
-route.get('/admin/info', (req, res) => {
-    return res.sendFile(path.join(__dirname, "../public/views/pages/admin.html"));
-});
+// route.get("/", (req, res) => {
+//   // return res.sendFile(path.join(__dirname, "../public/views/pages/home"));
+//   res.render("pages/home");
+// });
 
-module.exports = route
+// route.get("/login", (req, res) => {
+//   // return res.sendFile(path.join(__dirname, "../public/views/pages/login"));
+//   res.render("pages/login");
+// });
+// >>>>>>> nat
 
+// route.get("/info", (req, res) => {
+//   // return res.sendFile(path.join(__dirname, "../public/views/pages/customer"));
+//   res.render("pages/customer");
+// });
 
+// route.get("/admin/info", (req, res) => {
+//   res.render("pages/admin");
+// });
+
+// route.get("/manageBooks", (req, res) => {
+//   // return res.sendFile(path.join(__dirname, "../public/views/pages/login"));
+//   res.render("pages/manageBooks");
+// });
+
+// Create
+
+module.exports = route;
