@@ -21,15 +21,17 @@
                 <table>
                     <tr class="title">
                         <th style="width: 150px">Sản phẩm</th>
+                        <th style="width: 80px">ISBN/ISSN</th>
                         <th style="width: 80px">Giá</th>
                         <th style="width: 80px">Số lượng</th>
                         <th style="width: 80px">Phần trăm giảm</th>
                         <th style="width: 80px">Tạm tính</th>
-                        <th style="width: 50px"></th>
+                        <th style="width: 30px"></th>
                     </tr>
                     <% for (product of products) { %>
                     <tr>
                         <td><%= product.name %></td>
+                        <td><%= product.issn !== null ? product.issn : product.isbn%></td>
                         <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></td>
                         <td><%= product.quantity %></td>
                         <td><%= product.discount.percentage + '%' %></td>

@@ -50,8 +50,9 @@
           document.getElementsByClassName("add-cart")[0].addEventListener('click', () => {
             const bookID = <%- JSON.stringify(book_de.book_id) %>;
             const name = <%- JSON.stringify(book_de.title) %>;
+            const book_type = <%- JSON.stringify(book_de.book_type) %>;
             const issn = <%- JSON.stringify(typeof book_de.issn === 'undefined' ? null : book_de.issn) %>;
-            const isbn = <%- JSON.stringify(typeof book_de.isbn === 'undefined' ? null : book_de.issn) %>;
+            const isbn = <%- JSON.stringify(typeof book_de.isbn === 'undefined' ? null : book_de.isbn) %>;
             const price = <%- JSON.stringify(book_de.price) %>;
             const quantity = 1;
             fetch('/cart/add', {
@@ -62,6 +63,7 @@
               body: JSON.stringify({
                 bookID,
                 name,
+                book_type,
                 issn,
                 isbn,
                 price,

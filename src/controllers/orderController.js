@@ -33,9 +33,16 @@ const addOrder = async (req, res) => {
             await orderService.addDiscountToOrder(orderID, product.discount_id);
         }
     }
+    if(cart.discount.discount_id)
     await orderService.addDiscountToOrder(orderID, cart.discount.discount_id);
 
-    req.session.cart = undefined;
+    req.session.cart = {
+        products: [],
+        totalPrice: null,
+        orderDiscount: null,
+        levelDiscount: null,
+        shipfee: null,
+    };
 
     return res.redirect('/order');
 };
