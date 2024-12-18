@@ -10,7 +10,7 @@
         </a>
     </div>
     <div class="menu">
-        <a class="button-header" href="/search">Sách</a>
+        <a class="button-header <%= typeof bookPage != "undefined" ? "button-header__active" : "" %>" href="/search">Sách</a>
         <a class="button-header <%= typeof cartPage != "undefined" ? "button-header__active" : "" %>" href="/cart">Giỏ hàng</a>
         <a class="button-header <%= typeof orderPage != "undefined" ? "button-header__active" : "" %>" href="/order">Đơn hàng</a>
         <div class="menu-user">

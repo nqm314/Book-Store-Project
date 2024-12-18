@@ -12,6 +12,7 @@ const searchFieldBook = async (req, res) => {
   // console.log(field);
   try {
     const query = {
+      title: req.query.title || "",
       price: req.query.price || "",
       pub_id: req.query.pub_id || "",
       author_id: req.query.author_id || "",
@@ -23,12 +24,14 @@ const searchFieldBook = async (req, res) => {
       bookService.getAllBookInfo(field),
       bookService.getAllIsWritten(),
     ]);
+    
 
     // Thực hiện phân trang
     const totalBooks = books.length;
     const totalPages = Math.ceil(totalBooks / limit);
     const paginatedBooks = books.slice(startIndex, endIndex);
 
+    res.locals.bookPage = true;
     // Render trang searchFieldBook với dữ liệu đã lọc
     res.render("pages/searchFieldBook", {
       publishers: publishers,
