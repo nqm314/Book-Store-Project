@@ -35,8 +35,29 @@ const getBookById = async (bookId) => {
 const search = async (query) => {
   try {
     const results = await db.execute(
-      "SELECT book_id, title, book_type, book.pub_id, book.series_id, name, publishing_house FROM book LEFT JOIN publisher ON book.pub_id = publisher.pub_id LEFT JOIN series ON book.series_id = series.series_id WHERE title like ?",
-      [`%${query}%`]
+      `
+      SELECT DISTINCT
+        book.book_id, 
+        book.title, 
+        book.book_type, 
+        book.pub_id, 
+        book.series_id, 
+        publisher.publishing_house AS publishing_house, 
+        series.name AS name
+      FROM book 
+      LEFT JOIN publisher ON book.pub_id = publisher.pub_id 
+      LEFT JOIN series ON book.series_id = series.series_id 
+      LEFT JOIN is_written ON book.book_id = is_written.book_id 
+      LEFT JOIN author ON is_written.author_id = author.author_id 
+      LEFT JOIN book_genre ON book.book_id = book_genre.book_id 
+      WHERE 
+          (MATCH(book.title, book.description) AGAINST(? IN NATURAL LANGUAGE MODE) OR
+          MATCH(author.firstname, author.lastname) AGAINST(? IN NATURAL LANGUAGE MODE) OR
+          MATCH(book_genre.genre) AGAINST(? IN NATURAL LANGUAGE MODE) OR
+          MATCH(publisher.publishing_house) AGAINST(? IN NATURAL LANGUAGE MODE))
+          OR ? = ''
+        `,
+      [query, query, query, query, query]
     );
     return results[0];
   } catch (error) {

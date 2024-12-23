@@ -26,33 +26,49 @@ const showOrderPage = async (req, res) => {
 };
 
 const showOders = async (req, res) => {
-    const page = parseInt(req.query.page) || 1; // Lấy trang hiện tại từ query params
-    const limit = 20; // Số sách mỗi trang
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-  
-    try {
-      // Lấy dữ liệu từ API
-      const ordersRes = await orderService.getAll();
-  
-      const paginatedOrders = ordersRes.slice(startIndex, endIndex); // Lấy theo trang
+  const page = parseInt(req.query.page) || 1; // Get the current page from query params
+  const limit = 20; // Number of orders per page
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const sort = req.query.sort || 'order_id'; // Get the sort criteria from query params, default to 'order_id'
 
-      console.log("Orders: ", paginatedOrders);
-  
-      // Tính tổng số trang
-      const totalPages = Math.ceil(ordersRes.length / limit);
-  
-      // Render trang với dữ liệu sách và thông tin phân trang
-      res.render("pages/manageOrders", {
-        orders: paginatedOrders,
-        currentPage: page,
-        totalPages: totalPages,
-      });
-    } catch (err) {
-      console.error("Lỗi khi lấy danh sách don hang:", err);
-      res.status(500).send("Lỗi khi lấy danh sách don hang");
-    }
-  };
+  try {
+    // Fetch orders from the service
+    const ordersRes = await orderService.getAll();
+
+    // Sort orders based on the specified criteria
+    ordersRes.sort((a, b) => {
+      if (sort === 'date') {
+        return new Date(a.date) - new Date(b.date);
+      } else if (sort === 'status') {
+        return a.status.localeCompare(b.status);
+      } else if (sort === 'price') {
+        return a.original_price - b.original_price;
+      } else {
+        return a.order_id - b.order_id;
+      }
+    });
+
+    // Get the orders for the current page
+    const paginatedOrders = ordersRes.slice(startIndex, endIndex);
+
+    console.log("Orders: ", paginatedOrders);
+
+    // Calculate total pages
+    const totalPages = Math.ceil(ordersRes.length / limit);
+
+    // Render the page with the orders and pagination info
+    res.render("pages/manageOrders", {
+      orders: paginatedOrders,
+      currentPage: page,
+      totalPages: totalPages,
+      sort: sort,
+    });
+  } catch (err) {
+    console.error("Error fetching orders:", err);
+    res.status(500).send("Error fetching orders");
+  }
+};
 
 const editOrder = async (req, res) => {
     const orderID = req.query.id;

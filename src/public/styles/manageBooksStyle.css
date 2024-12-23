@@ -13,6 +13,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 80px;
 }
 
 .search-container form {
@@ -22,6 +23,7 @@ body {
   overflow: hidden;
   width: 60%;
   max-width: 600px;
+  height: 45px;
 }
 
 .search-container form input {
@@ -29,6 +31,7 @@ body {
   padding: 7px;
   border: none;
   outline: none;
+  font-size: medium;
 }
 
 .search-container form button {
@@ -313,7 +316,7 @@ td {
   outline: none;
   background-color: white;
   border-radius: 0 25px 25px 0;
-  font-size: 14px;
+  font-size: medium;
   cursor: pointer;
   margin-left: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng đổ bóng */
@@ -335,4 +338,5 @@ td {
   background-color: #ffffff; /* Thay đổi màu khi hover */
   box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
+  font-size: medium;
 }
