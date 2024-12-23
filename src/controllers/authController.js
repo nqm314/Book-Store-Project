@@ -5,6 +5,10 @@ const showLoginCustomer = async (req, res) => {
     return res.render("pages/login");
 };
 
+const showLoginStaff = async (req, res) => {
+    return res.render("pages/adminLogin");
+}
+
 const loginCustomer = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -45,10 +49,13 @@ const loginStaff = async (req, res) => {
             username: username,
             role: "STAFF",
         };
-        req.session.cart = [];
         return res.redirect("/admin");
     }
-    return res.redirect("/pages/loginAdmin");
+    return res.render("pages/adminLogin", {
+        username: username,
+        password: password,
+        loginFailed: true,
+    });
 };
 
 const logout = async (req, res) => {
@@ -58,7 +65,7 @@ const logout = async (req, res) => {
             console.error(err);
         }
     });
-    if (role === "staff") {
+    if (role === "STAFF") {
         return res.redirect("/admin/login");
     } else {
         return res.redirect("/login");
@@ -75,6 +82,7 @@ const showInfo = async (req, res) => {
 
 module.exports = {
     showLoginCustomer,
+    showLoginStaff,
     loginCustomer,
     loginStaff,
     logout,
