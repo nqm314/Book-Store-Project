@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thêm ấn bản</title>
+    <link rel="stylesheet" href="../../styles/style.css" />
+    <link rel="stylesheet" href="../../styles/headerStyle.css" />
+    <link rel="stylesheet" href="../../styles/addBookStyle.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="../../scripts/addEditionScript.js" defer></script>
+  </head>
+  <body>
+    <%- include('partial/headerAdmin') %>
+
+    <!-- Add Edition Container -->
+    <div class="add-book-container">
+      <div class="modal" id="book-modal">
+        <div class="modal-content">
+          <h2 class="add-title" style="font-size: 24px">
+            Nhập thông tin ấn bản cần thêm
+          </h2>
+
+          <!-- Form thêm ấn bản -->
+          <form
+            action="/api/edition/store"
+            class="form-book-content"
+            id="form-add-edition-content"
+            method="post"
+          >
+            <label for="bookID">ID của sách:</label>
+            <input
+              type="text"
+              id="bookID"
+              name="BookID"
+              readonly
+            />
+
+            <label for="ISBN" class="required">ISBN</label>
+            <input
+              type="text"
+              name="ISBN"
+              id="ISBN"
+              placeholder="Nhập ISBN"
+              value="<%= typeof values !== 'undefined' ? values.ISBN : '' %>"
+              required
+            />
+
+            <label for="pub-date" class="required">Ngày xuất bản</label>
+            <input
+              type="date"
+              id="pub-date"
+              name="PubDate"
+              value="<%= typeof values !== 'undefined' ? values.PubDate : '' %>"
+              required
+            />
+
+            <label class="required" for="PrnRunSz">Số lượng bản in:</label>
+            <input
+              type="text"
+              name="PrnRunSz"
+              id="PrnRunSz"
+              placeholder="Nhập số lượng bản in"
+              value="<%= typeof values !== 'undefined' ? values.PrnRunSz : '' %>"
+              required
+            />
+
+            <label class="required" for="pages-num">Số trang</label>
+            <input
+              type="text"
+              name="Pages"
+              id="pages-num"
+              placeholder="Nhập số trang"
+              value="<%= typeof values !== 'undefined' ? values.Pages : '' %>"
+              required
+            />
+
+            <label class="required" for="Format">Định dạng</label>
+            <select id="Format" name="Format" required>
+              <option value="">---Chọn định dạng sách---</option>
+              <option value="Sách bìa cứng khổ lớn">Sách bìa cứng khổ lớn</option>
+              <option value="Sách bìa mềm thương mại">Sách bìa mềm thương mại</option>
+              <option value="Sách bỏ túi nhỏ">Sách bỏ túi nhỏ</option>
+              <option value="Sách khổ Digest">Sách khổ Digest</option>
+              <option value="Sách bìa cứng tiêu chuẩn">Sách bìa cứng tiêu chuẩn</option>
+              <option value="Khổ A4">Khổ A4</option>
+              <option value="Khổ A5">Khổ A5</option>
+              <option value="Sách bỏ túi">Sách bỏ túi</option>
+              <option value="Sách vuông lớn">Sách vuông lớn</option>
+              <option value="Sách vuông nhỏ">Sách vuông nhỏ</option>
+            </select>
+
+            <label class="required" for="price">Giá tiền</label>
+            <input
+              type="text"
+              name="Price"
+              id="price"
+              placeholder="Nhập giá tiền"
+              value="<%= typeof values !== 'undefined' ? values.Price : '' %>"
+              required
+            />
+
+            <label class="required" for="amount">Số lượng hiện có</label>
+            <input
+              type="text"
+              name="Amount"
+              id="amount"
+              placeholder="Nhập số lượng hiện có"
+              value="<%= typeof values !== 'undefined' ? values.Amount : '' %>"
+              required
+            />
+
+            <div class="button-group">
+              <button type="submit" class="add-book-btn">Thêm</button>
+              <button
+                type="button"
+                class="close-btn-modal"
+                onclick="closeModal()"
+              >
+                Đóng
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Response Modal -->
+    <div class="modal" id="response-modal">
+      <div class="response-modal-content">
+        <h2 id="response-message"></h2>
+        <button id="ok-btn">OK</button>
+      </div>
+    </div>
+  </body>
+</html>

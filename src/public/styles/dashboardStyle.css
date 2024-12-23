@@ -1,0 +1,117 @@
+/* dashboard */
+.dashboard-container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+    margin: 80px auto 0; /* Căn giữa container và tạo khoảng cách với header */
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.indicators {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Chia đều thành 3 cột */
+    gap: 30px; /* Khoảng cách giữa các indicator */
+    width: 100%;
+}
+
+.indicator {
+    background-color: rgb(196, 251, 255);
+    border: 1px solid #d1d8e0;
+    border-radius: 15px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.indicator:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: #6c5ce7;
+}
+
+.indicator header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.indicator header h2 {
+    color: rgb(0, 203, 203);
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.indicator__body {
+    color: rgb(0, 203, 203);
+    font-size: 2rem;
+    font-weight: 700;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(102, 102, 102, 0.1);
+}
+
+.indicator__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.indicator__footer .trend {
+    color: #00b83d;
+    background: rgba(173, 253, 182, 0.5);
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    border: none;
+}
+
+.indicator__footer p {
+    color: rgb(0, 203, 203);
+    background-color: rgba(200, 247, 247, 0.5);
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .indicators {
+        grid-template-columns: repeat(2, 1fr); /* 2 cột cho màn hình tablet */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard-container {
+        padding: 15px;
+        margin-top: 60px;
+    }
+
+    .indicators {
+        grid-template-columns: 1fr; /* 1 cột cho màn hình mobile */
+        gap: 20px;
+    }
+
+    .indicator {
+        padding: 20px;
+    }
+
+    .indicator header h2 {
+        font-size: 1.1rem;
+    }
+
+    .indicator__body {
+        font-size: 1.8rem;
+    }
+}

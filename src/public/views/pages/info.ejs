@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Customer</title>
+        <link href="/styles/info.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <%- include('../templates/header'); %>
+
+        <div class="profile-container">
+            <div class="profile-box">
+                <div class="profile-sidebar">
+                    <h3>Khách hàng</h3>
+                    <div class="profile-info">
+                        <div class="info-box">
+                            <p><strong>ID</strong></p>
+                            <p class="info-value"><%= customer.customer_id %></p>
+                        </div>
+                        <div class="info-box">
+                            <p><strong>Level</strong></p>
+                            <p class="info-value"><%= customer.level %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <h2>Thông tin cá nhân</h2>
+                    <div class="info-details">
+                        <div class="info-box">
+                            <p class="info-field">Họ và tên</p>
+                            <p class="info-value"><%= customer.name %></p>
+                        </div>
+
+                        <div class="info-box">
+                            <p class="info-field">Giới tính</p>
+                            <p class="info-value"><%= customer.sex %></p>
+                        </div>
+
+                        <div class="info-box">
+                            <p class="info-field">Tuổi</p>
+                            <p class="info-value"><%= customer.age %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

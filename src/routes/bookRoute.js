@@ -1,0 +1,14 @@
+const express = require("express");
+const route = express.Router();
+const createController = require("../controllers/bookController");
+const manageBooksController = require("../controllers/manageBooksController");
+const path = require("path");
+// router.get("/create", createController.createBook);
+route.get("/create", manageBooksController.createBook);
+route.get("/edit", manageBooksController.editBook);
+route.get('/search', manageBooksController.searchBooks);
+route.post("/create/store", manageBooksController.storeBook);
+route.post("/edition/store", manageBooksController.storeEditionToDB);
+route.post("/issue/store", manageBooksController.storeIssueToDB);
+route.get("/", manageBooksController.showBooks);
+module.exports = route;

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Book</title>
+  <link rel="stylesheet" href="../../styles/style.css" />
+  <link rel="stylesheet" href="../../styles/headerStyle.css" />
+  <link rel="stylesheet" href="../../styles/addBookStyle.css" />
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <script src="../../scripts/addBookScript.js" defer></script>
+</head>
+
+<body>
+  <%- include('partial/headerAdmin') %> <!-- Include the common header -->
+
+  <!-- Add Book Form -->
+  <div class="add-book-container">
+    <!-- Modal enter info-->
+     <div class="modal" id="book-modal"> 
+      <div class="modal-content">
+        <h2 class="add-title" style="font-size: 24px;">
+          Nhập thông tin sách cần thêm 
+        </h2>
+
+        <form action="/manageBooks/create/store" class="form-book-content" id="form-add-book-content" method="post">
+          <!-- Announce error if exists -->
+          <% if (typeof error !== 'undefined' && error) { %>
+            <div class="announce-error" id="announce-error"><%= error %></div>
+          <% } %>
+
+           <label for="book-title" class="required">Tên sách</label>
+           <input
+              type="text"
+              name="title"
+              id="book-title"
+              placeholder="Nhập tên sách"
+              value="<%= typeof values !== 'undefined' ? values.title : '' %>"
+              required
+            />
+
+            <label for="book-description">Mô tả:</label>
+            <textarea
+              id="book-description"
+              name="description"
+              rows="4"
+              placeholder="Nhập mô tả"
+            ><%= typeof values !== 'undefined' ? values.description : '' %></textarea>
+
+            <label for="book-chapters">Số chương:</label>
+            <input
+              type="text"
+              name="volumn_number"
+              id="book-chapters"
+              placeholder="Nhập số chương (số chương phải lớn hơn 0)"
+              value="<%= typeof values !== 'undefined' ? values.volumn_number : '' %>"
+            />
+
+            <label class="required" for="book-type"> Loại sách</label>
+            <select
+              id="book-type"
+              name="book_type"
+              required
+            >
+              <option value="" <%= typeof values === 'undefined' || !values.book_type ? 'selected' : '' %>>---Chọn loại sách---</option>
+              <option value="Truyện tranh" <%= typeof values !== 'undefined' && values.book_type === 'Truyện tranh' ? 'selected' : '' %>>Truyện tranh</option>
+              <option value="Tiểu thuyết" <%= typeof values !== 'undefined' && values.book_type === 'Tiểu thuyết' ? 'selected' : '' %>>Tiểu thuyết</option>
+              <option value="Sách tham khảo" <%= typeof values !== 'undefined' && values.book_type === 'Sách tham khảo' ? 'selected' : '' %>>Sách tham khảo</option>
+              <option value="Tạp chí" <%= typeof values !== 'undefined' && values.book_type === 'Tạp chí' ? 'selected' : '' %>>Tạp chí</option>
+            </select>
+
+            <label for="publisher" class="required">Nhà xuất bản:</label>
+            <select name="pub_id" id="publisher" required>
+              <option value="" disabled selected>---Chọn nhà xuất bản---</option>
+              <% publishers.forEach(publisher => { %>
+                <option value="<%= publisher.publishing_house %>"><%= publisher.publishing_house %></option>
+              <% }) %>
+            </select>
+             
+            <div id="series-container">
+              <label for="series">Series:</label>
+              <select
+                id="series"
+                name="series_name"
+              >
+                <option value="" <%= typeof values === 'undefined' || !values.series_name ? 'selected' : '' %>>---Chọn series---</option>
+                <option value="">Không có</option>
+                <% series.forEach(serie => { %>
+                  <option value="<%= serie.name %>" <%= typeof values !== 'undefined' && values.series_name === serie.name ? 'selected' : '' %>><%= serie.name %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="button-group">
+              <button type="submit" class="add-book-btn">Thêm</button>
+              <button type="button" class="close-btn-modal" onclick="closeModal()">Đóng</button>
+            </div>
+            <div
+              id="error-message"
+              style="display: none; color: red; font-weight: bold"
+            ></div>
+        </form>
+      </div>
+     </div>
+  </div>
+
+  <div class="modal" id="response-modal">
+    <div class="response-modal-content">
+      <h2 id="response-message"></h2>
+      <button id="ok-btn">OK</button>
+    </div>
+  </div>
+</body>
+</html>

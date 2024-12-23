@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý sách</title>
+    <!-- <link href="../../styles/style.css" rel="stylesheet" type="text/css" /> -->
+    <link rel="stylesheet" href="../../styles/headerStyle.css" />
+    <link rel="stylesheet" href="../../styles/manageBooksStyle.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- <script src="../../scripts/script.js" defer></script> -->
+    <script src="../../scripts/headerStaffScript.js" defer></script>
+    <script src="../../scripts/manageBooks.js" defer></script>
+  </head>
+
+  <body>
+    <%- include('partial/headerAdmin') %>
+    <div class="search-container">
+      <form action="/manageBooks/search" id="form">
+        <input type="search" id="search-area" name="q" placeholder="Tìm kiếm" value="<%= searchQuery %>" />
+        <button><span>🔍</span></button>
+
+        <select name="sort" id="sort-dropdown">
+          <option value="book_id" <%= sort === 'book_id' ? 'selected' : '' %>>Sắp xếp theo</option>
+          <option value="title" <%= sort === 'title' ? 'selected' : '' %>>Tên sách</option>
+          <option value="type" <%= sort === 'type' ? 'selected' : '' %>>Thể loại</option>
+          <option value="publisher" <%= sort === 'publisher' ? 'selected' : '' %>>Nhà xuất bản</option>
+        </select>
+      </form>
+      <div class="btn-add">
+        <a href="/manageBooks/create"
+          ><button class="btn-sty">Thêm sách</button></a
+        >
+      </div>
+    </div>
+    <!-- List Books -->
+    <div class="table-container">
+      <h1>Danh sách sách</h1>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 20px">STT</th>
+            <th style="width: 80px">Mã sách</th>
+            <th style="width: 220px">Tên sách</th>
+            <th style="width: 120px">Thể loại</th>
+            <th style="width: 220px">Nhà xuất bản</th>
+            <th style="width: 220px">Series</th>
+            <th style="width: 40px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% books.forEach((book, index) => { %>
+          <tr>
+            <td><%= (currentPage - 1) * 20 + index + 1 %></td>
+            <td><%= book.book_id %></td>
+            <td><%= book.title %></td>
+            <td><%= book.book_type %></td>
+            <td><%= book.publishing_house %></td>
+            <td><%= book.name %></td>
+            <td>
+              <button class="edit-btn" data-book-id="<%= book.book_id %>">
+                <i class="fas fa-edit"></i> Sửa
+              </button>
+              <button class="delete-btn" data-book-id="<%= book.book_id %>">
+                <i class="fas fa-trash-alt"></i> Xóa
+              </button>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <!-- Pagination -->
+      <div class="pagination">
+        <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>&q=<%= searchQuery %>&sort=<%= sort %>">Trang trước</a>
+        <% } %>
+      
+        <a href="?page=1&q=<%= searchQuery %>&sort=<%= sort %>">1</a>
+      
+        <% if (currentPage > 4) { %>
+        <span>...</span>
+        <% } %> 
+        <% for (let i = currentPage - 2; i <= currentPage + 2; i++) { %>
+        <% if (i > 1 && i < totalPages) { %>
+        <a href="?page=<%= i %>&q=<%= searchQuery %>&sort=<%= sort %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+        <% } %> 
+        <% } %> 
+        <% if (currentPage < totalPages - 3) { %>
+        <span>...</span>
+        <% } %> 
+        <% if (totalPages > 1) { %>
+        <a href="?page=<%= totalPages %>&q=<%= searchQuery %>&sort=<%= sort %>"><%= totalPages %></a>
+        <% } %> 
+        <% if (currentPage < totalPages) { %>
+        <a href="?page=<%= currentPage + 1 %>&q=<%= searchQuery %>&sort=<%= sort %>">Trang sau</a>
+        <% } %>
+      </div>
+    </div>
+    <div id="confirmation-delete-box" class="hidden">
+      <div class="confirmation-content">
+        <p>Bạn có chắc chắn muốn xóa sách này?</p>
+        <!-- <form id="delete-form" method="POST" action="/delete"> -->
+        <!-- <input type="hidden" id="delete-book-id" name="book_id" /> -->
+        <button id="confirm-delete" class="confirm-btn">Xóa</button>
+        <!-- </form> -->
+        <button id="cancel-delete" class="cancel-btn">Hủy</button>
+      </div>
+    </div>
+  
+    <div id="confirmation-edit-box" class="hidden">
+      <div class="confirmation-content">
+        <p>Bạn có chắc chắn muốn chỉnh sửa sách này?</p>
+        <button id="confirm-edit" class="confirm-btn">Sửa</button>
+        <button id="cancel-edit" class="cancel-btn">Hủy</button>
+      </div>
+    </div>
+  </body>
+</html>

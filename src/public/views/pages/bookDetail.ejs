@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/images/bookstore logo.jpg" />
+    <title>Chi Tiết Sách</title>
+    <link rel="stylesheet" href="/styles/bookDetailStyle.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="/scripts/bookDetail.js" defer></script>
+  </head>
+  <body>
+    <%- include('../templates/header') %>
+
+    <div class="book-detail-container">
+      <div class="buy-book">
+        <img src="../../images/book.png" alt="" />
+        <div class="description-book">
+          <span>Mô tả sản phẩm:</span>
+          <p><%= book_des[0].description %></p>
+        </div>
+        <div class="version-select">
+          <form id="version-form" method="get" action="/search/book/<%= book_des[0].book_id %>">
+            <label for="version-select">
+              <%= (book_des[0].book_type === "Truyện tranh" || book_des[0].book_type === "Tạp chí") ? "Chọn tập" : "Chọn phiên bản" %>:
+            </label>
+            <select id="version-select" name="version" onchange="document.getElementById('version-form').submit()">
+              <!-- <option value="">None</option> -->
+              <% book_des.forEach(book_de => { %>
+                <option
+                value="<%= book_de.book_id.startsWith('CO') || book_de.book_id.startsWith('MA') ? book_de.issn : book_de.isbn %>"
+                <%= book_de.book_id.startsWith('CO') || book_de.book_id.startsWith('MA') 
+                    ? book_de.issn === selectedVersion ? 'selected' : '' 
+                    : book_de.isbn === selectedVersion ? 'selected' : '' %>
+              >
+                <%= book_de.book_id.startsWith('CO') || book_de.book_id.startsWith('MA') 
+                    ? `${book_de.issue_number}` 
+                    : new Date(book_de.publication_date).toLocaleDateString() %>
+              </option>
+              
+              <% }) %>
+            </select>
+          </form>
+          
+        </div>
+        <button class="add-cart">Thêm vào giỏ hàng</button>
+        <script>
+          document.getElementsByClassName("add-cart")[0].addEventListener('click', () => {
+            const bookID = <%- JSON.stringify(book_de.book_id) %>;
+            const name = <%- JSON.stringify(book_de.title) %>;
+            const book_type = <%- JSON.stringify(book_de.book_type) %>;
+            const issn = <%- JSON.stringify(typeof book_de.issn === 'undefined' ? null : book_de.issn) %>;
+            const isbn = <%- JSON.stringify(typeof book_de.isbn === 'undefined' ? null : book_de.isbn) %>;
+            const price = <%- JSON.stringify(book_de.price) %>;
+            const quantity = 1;
+            fetch('/cart/add', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                bookID,
+                name,
+                book_type,
+                issn,
+                isbn,
+                price,
+                quantity
+                })
+              }).then(respone => alert('Thêm vào giỏ hàng thành công'))
+          })
+        </script>
+      </div>
+      <div class="book-info-container">
+        <div class="general-book-info">
+          <div class="out-info">
+            <h2><%= book_de.title %></h2>
+            <div class="pub-out-info">
+              <span>Nhà cung cấp:</span>
+              <span style="opacity: 0.8"
+                ><%= book_de.publishing_house %></span
+              >
+            </div>
+            <div class="author-out-info">
+              <span>Tác giả:</span>
+              <span style="opacity: 0.8"><%= authors.join(", ") %></span>
+            </div>
+            <div class="author-out-info">
+              <span>Thể loại:</span>
+              <span style="opacity: 0.8"><%= book_des.book_type %></span>
+            </div>
+          </div>
+          <div class="rating-info">
+            <%= (book_des[0].total_point / book_des[0].num_of_rating).toFixed(1)
+            %>
+            <i class="fas fa-star"></i>
+            (<%= book_des[0].num_of_rating %> đánh giá)
+          </div>
+          <div class="price-info"><span><%= book_de.price %> đ</span></div>
+        </div>
+        <div class="detail-book-info">
+          <h2>Thông tin chi tiết</h2>
+          <div class="table-detail-info">
+            <% if (book_de.book_type === "Sách tham khảo" ||
+            book_de.book_type === "Tiểu thuyết") { %>
+            <table class="data-table">
+              <colgroup>
+                <col width="25%" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th class="tabel-label">ISBN</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.isbn %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Nhà xuất bản</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.publishing_house %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Tác giả</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= authors.join(", ") %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Năm xuất bản</th>
+                  <td>
+                    <div class="content">
+                      <%= new Intl.DateTimeFormat('vi-VN', { day: '2-digit',
+                      month: '2-digit', year: 'numeric' }).format(new
+                      Date(book_de.publication_date)) %>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Kích thước bao bì</th>
+                  <td>
+                    <div class="content">
+                      <%= book_de.print_run_size %>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Số trang</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.pages %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Hình thức</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.format %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <% } else { %>
+            <table class="data-table">
+              <colgroup>
+                <col width="25%" />
+                <col />
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th class="tabel-label">ISSN</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.issn %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Nhà xuất bản</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.publishing_house %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Tác giả</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= authors.join(", ") %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Năm xuất bản</th>
+                  <td>
+                    <div class="content">
+                      <%= new Intl.DateTimeFormat('vi-VN', { day: '2-digit',
+                      month: '2-digit', year: 'numeric' }).format(new
+                      Date(book_de.publication_date)) %>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Số trang</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.pages %>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="tabel-label">Số</th>
+                  <td>
+                    <div class="content"></div>
+                    <%= book_de.issue_number %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
