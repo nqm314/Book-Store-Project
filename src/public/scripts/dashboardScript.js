@@ -16,5 +16,30 @@ function fetchDashboardData() {
     .catch(error => console.error('Error loading dashboard data: ', error));
 }
 
+function showTopCustomers() {
+    fetch('/api/dashboard-top-customers')  // Assuming the API endpoint is defined correctly
+    .then(response => response.json())
+    .then(data => {
+        // Update the innerHTML of the elements with the fetched data
+        const tableBody = document.getElementById('top-customers-table');
+        console.log(data);
+        data.forEach((customer, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${customer.customer_id}</td>
+                <td>${customer.name}</td>
+                <td>${customer.sex}</td>
+                <td>${customer.level}</td>
+                <td>${customer.order_sum.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })} VND</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    })
+    .catch(error => console.error('Error loading dashboard data: ', error));
+}
+
+
 // Fetch and display the dashboard data on page load
 fetchDashboardData();
+showTopCustomers();

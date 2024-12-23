@@ -30,8 +30,19 @@ const getNumOfBooks = async () => {
     }
 }
 
+const getTopCustomers = async () => {
+    try {
+        const [rows] = await db.execute('SELECT customer_id, name, sex, level, order_sum FROM customer ORDER BY order_sum DESC LIMIT 10;');
+        return rows;
+    } catch (error) {
+        console.error('Error fetching top customers:', error.message);
+        throw error; 
+    }
+}
+
 module.exports = {
     getNumOfCustomers, 
     getNumOfOrders,
-    getNumOfBooks
+    getNumOfBooks,
+    getTopCustomers,
 };

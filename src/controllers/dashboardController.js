@@ -15,6 +15,16 @@ const getDashboardData = async (req, res) => {
     }
 };
 
+const getTopCustomers = async (req, res) => {
+    try {
+        const topCustomers = await dashboardService.getTopCustomers();
+        return res.status(200).json(topCustomers);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 module.exports = {
-    getDashboardData
+    getDashboardData,
+    getTopCustomers,
 };

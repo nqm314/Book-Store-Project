@@ -64,4 +64,9 @@ route.get(
   controllers.dashboardController.getDashboardData
 );
 
+route.get(
+  "/dashboard-top-customers",
+  controllers.dashboardController.getTopCustomers
+);
+
 module.exports = route;

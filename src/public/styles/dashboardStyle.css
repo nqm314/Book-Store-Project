@@ -115,3 +115,51 @@
         font-size: 1.8rem;
     }
 }
+
+/* Styles for the top customers table */
+.top-customers {
+    margin-top: 40px;
+    background-color: #fff;
+    border: 1px solid #d1d8e0;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.top-customers h2 {
+    color: rgb(0, 203, 203);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.top-customers table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.top-customers table thead {
+    background-color: rgb(0, 203, 203);
+    color: #fff;
+}
+
+.top-customers table th, .top-customers table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #d1d8e0;
+}
+
+.top-customers table th {
+    font-weight: 700;
+}
+
+.top-customers table tr:hover {
+    background-color: rgba(0, 203, 203, 0.1);
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .top-customers table th, .top-customers table td {
+        padding: 10px;
+    }
+}
