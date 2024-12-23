@@ -9,8 +9,8 @@ const route = Router()
 route.get('/order', authMiddleware.isCustomer, orderController.showOrderPage)
 route.post('/order', authMiddleware.isCustomer, orderController.addOrder)
 
-route.get("/", manageOrdersController.showOders);
-route.get("/edit", manageOrdersController.editOrder);
+route.get("/", authMiddleware.isStaff, manageOrdersController.showOders);
+route.get("/edit", authMiddleware.isStaff, manageOrdersController.editOrder);
 
 module.exports = route
 

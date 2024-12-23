@@ -10,7 +10,7 @@ route.post('/login', authController.loginCustomer)
 
 
 //Admin Login
-route.get('/admin/login', authMiddleware.isAuthAdmin, authController.showLoginCustomer)
+route.get('/admin/login', authMiddleware.isAuthAdmin, authController.showLoginStaff)
 route.post('/admin/login', authController.loginStaff)
 
 
