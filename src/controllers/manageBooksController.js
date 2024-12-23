@@ -67,7 +67,7 @@ const searchBooks = async (req, res) => {
 
   try {
     // Lấy dữ liệu sách từ API
-    const response = await fetch(`/api/book/search?q=${encodeURIComponent(searchQuery)}`);
+    const response = await fetch(`${baseUrl}/api/book/search?q=${encodeURIComponent(searchQuery)}`);
     let books = await response.json();
 
     console.log("Danh sách sách tìm kiếm được:", books);
