@@ -19,7 +19,7 @@ const getOrderByCustomer = async (customer_id, page = 1, start_date, end_date) =
         const offset = (Number(page) - 1) * limit
 
         if(!start_date) {
-            start_date = '2024-01-01'
+            start_date = '2022-01-01'
         }
         if(!end_date) {
             const today = new Date();
@@ -43,44 +43,20 @@ const getOrderByCustomer = async (customer_id, page = 1, start_date, end_date) =
     }
 };
 
-const createOrder = async (customerID, cart, address) => {
+const checkout = async (customer_id, cart, address) => {
+    const product = JSON.stringify(cart.products);
+    await db.beginTransaction();
     try {
-        const totalPrice = Math.ceil(cart.totalPrice * (100 - cart.discount.percentage) / 100);
-        const result = await db.execute('CALL createOrder(?, ?, ?, ?)', [customerID, cart.shipfee, totalPrice, address])
-        return result[0][0][0].order_id;
-    } catch (error) {
-        throw error;
-    }
-}
-
-const addProductToOrder = async (orderID, bookType, isbn, issn, quantity) => {
-    try {
-        let productID;
-        if(bookType === 'Truyện tranh' || bookType === 'Tạp chí') {
-            productID = issn;
-        } else {
-            productID = isbn;
-        }
-        const result = await db.execute('CALL addProductToOrder (?, ?, ?, ?)', [orderID, bookType, productID, quantity]);
-        return result;
-    } catch (error) {
-        throw error;
-    }
-}
-
-const addDiscountToOrder = async (orderID, discountID) => {
-    try {
-        const result = await db.execute('INSERT INTO is_applied_for VALUES (?, ?)', [orderID, discountID])
-        return result;
-    } catch (error) {
-        throw error;
+        await db.execute('CALL checkout (?, ?, ?, ?, ?, ?)', [customer_id, cart.shipfee, address, cart.discount.discount_id, cart.discount.percentage, product]);
+        await db.commit();
+    } catch (err) {
+        await db.rollback();
+        throw err;
     }
 }
 
 module.exports = {
     totalPages,
     getOrderByCustomer,
-    createOrder,
-    addProductToOrder,
-    addDiscountToOrder,
+    checkout,
 };

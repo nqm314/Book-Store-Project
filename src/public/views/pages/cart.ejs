@@ -33,7 +33,13 @@
                         <td><%= product.name %></td>
                         <td><%= product.issn !== null ? product.issn : product.isbn%></td>
                         <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></td>
-                        <td><%= product.quantity %></td>
+                        <td>
+                            <input 
+                                type="number" 
+                                value="<%= product.quantity %>" 
+                                min="1"
+                                onblur="((event) => window.location.replace('/change-quantity/<%= product.issn !== null ? product.issn : product.isbn %>/' + (isNaN(Number(event.target.value)) || Number(event.target.value) <= 0 ? 1 : event.target.value )))(event)"/> 
+                        </td>
                         <td><%= product.discount.percentage + '%' %></td>
                         <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.totalTemp) %></td>
                         <td>

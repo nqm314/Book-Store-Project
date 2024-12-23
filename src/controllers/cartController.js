@@ -1,4 +1,4 @@
-const { cartService, bookDetailService } = require("../services");
+const { cartService } = require("../services");
 
 const showCartPage = async (req, res) => {
     const products = req.session.cart?.products;
@@ -92,6 +92,16 @@ const removeProduct = async (req, res) => {
     return res.redirect("/cart");
 };
 
+const changeQuantity = async (req, res) => {
+    const { versionID, quantity } = req.params;
+    const products = req.session.cart.products;
+
+    const book = products.filter((product) => (product.issn === versionID || product.isbn === versionID))
+    console.log(book);
+    book[0].quantity = quantity;
+    return res.redirect('/cart')
+}
+
 const createCart = async (req, res) => {
     const products = [];
     products.push({
@@ -138,4 +148,5 @@ module.exports = {
     removeProduct,
     createCart,
     addToCart,
+    changeQuantity,
 };

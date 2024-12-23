@@ -26,15 +26,8 @@ const showOrderPage = async (req, res) => {
 const addOrder = async (req, res) => {
     const customer_id = req.session.user.customer_id;
     const cart = req.session.cart;
-    const orderID = await orderService.createOrder(customer_id, cart, req.body.address);
-    for (const product of cart.products) {
-        await orderService.addProductToOrder(orderID, product.book_type, product.isbn, product.issn, product.quantity);
-        if(product.discount_id) {
-            await orderService.addDiscountToOrder(orderID, product.discount_id);
-        }
-    }
-    if(cart.discount.discount_id)
-    await orderService.addDiscountToOrder(orderID, cart.discount.discount_id);
+    
+    await orderService.checkout(customer_id, cart, req.body.address);
 
     req.session.cart = {
         products: [],

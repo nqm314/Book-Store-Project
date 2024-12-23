@@ -35,6 +35,12 @@ td {
     text-align: center;
 }
 
+td input {
+    font-size: 17px;
+    width: 35px;
+    border: none;
+}
+
 
 .total {
     display: flex;
