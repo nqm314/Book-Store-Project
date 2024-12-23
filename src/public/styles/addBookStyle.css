@@ -1,0 +1,122 @@
+/* add book */
+.add-book-container {
+    position: absolute;
+    top: 80px;
+    /* height: 80%; */
+    width: 80%;
+    max-width: 900px;
+    margin: 0 auto; /* Căn giữa */
+    padding: 30px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+#book-modal {
+    display: flex;
+    flex-direction: column;
+} 
+
+.add-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600; /* Giảm độ đậm cho tiêu đề */
+    color: #333;
+    text-transform: uppercase;
+}
+
+.form-book-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Tăng khoảng cách giữa các input */
+    max-width: 100%;
+}
+
+.form-book-content label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+}
+
+.form-book-content input, 
+.form-book-content textarea, 
+.form-book-content select {
+    width: 100%;
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border 0.3s ease, box-shadow 0.3s ease; /* Thêm hiệu ứng cho border và box-shadow */
+}
+
+.form-book-content input:focus, 
+.form-book-content textarea:focus, 
+.form-book-content select:focus {
+    border-color: #4caf50; /* Màu sắc khi focus vào */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Hiệu ứng bóng đổ khi focus */
+    outline: none;
+}
+
+.form-book-content textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.add-book-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.add-book-btn:hover {
+    background-color: #45a049;
+}
+
+.close-btn-modal {
+    background-color: #f63628;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.close-btn-modal:hover {
+    background-color: #f78d8c;
+}
+
+.add-book-btn:focus,
+.close-btn-modal:focus {
+    outline: none;
+}
+
+.required::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+}
+
+.announce-error {
+    color: red;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid red;
+    background-color: #f8d7da;
+}

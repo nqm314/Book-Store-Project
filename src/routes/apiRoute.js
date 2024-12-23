@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const controllers = require("../controllers");
+const controllers = require('../controllers');
 
 const route = Router();
 
@@ -8,6 +8,7 @@ route.get("/book/get-all", controllers.bookController.getAllBook);
 route.get("/book/search", controllers.bookController.searchBook);
 route.get("/book/:book_id", controllers.bookController.getBookById);
 route.delete("/book/:book_id", controllers.manageBooksController.destroyBook);
+route.put("/book/:book_id", controllers.manageBooksController.updateBook);
 route.get("/get-all-series", controllers.bookController.getAllSeries);
 route.get("/get-book-info", controllers.bookController.getBookPubSer);
 route.get("/book/edition/get-all", controllers.bookController.getAllEdition);
@@ -19,7 +20,12 @@ route.get(
 route.get("/book/rating/get-all", controllers.bookController.getAllRating);
 
 //Order route
-route.get("/order/get-all", controllers.orderController.getAllOrder);
+route.get("/order/get-all-order", controllers.orderController.getAllOrder);
+route.get("/order/:orderId", controllers.orderController.getOrderDetail);
+route.get(
+  "/filter-by-threshold",
+  controllers.orderController.getOrdersAboveThreshold
+);
 
 // Publisher
 route.get("/publisher/get-all", controllers.bookController.getAllPublisher);
@@ -47,4 +53,11 @@ route.get(
   "/book/issue/:book_id/:issn",
   controllers.bookController.getDetailIssue
 );
+
+// Dashboard
+route.get(
+  "/dashboard",
+  controllers.dashboardController.getDashboardData
+);
+
 module.exports = route;

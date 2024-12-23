@@ -22,10 +22,10 @@ LEFT JOIN issue ON book.book_id = issue.book_id`);
 
 const getBookById = async (bookId) => {
   try {
-    const result = await db.execute("SELECT * FROM book WHERE book_id = ?", [
+    const result = await db.execute("call getByBookID(?)", [
       bookId,
     ]);
-    return result[0];
+    return result[0][0];
   } catch (error) {
     throw error;
   }
@@ -34,7 +34,7 @@ const getBookById = async (bookId) => {
 const search = async (query) => {
   try {
     const results = await db.execute(
-      "select * from book where title like ? limit 10",
+      "SELECT book_id, title, book_type, book.pub_id, book.series_id, name, publishing_house FROM book LEFT JOIN publisher ON book.pub_id = publisher.pub_id LEFT JOIN series ON book.series_id = series.series_id WHERE title like ?",
       [`%${query}%`]
     );
     return results[0];

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Order</title>
+    <link rel="stylesheet" href="../../styles/style.css" />
+    <link rel="stylesheet" href="../../styles/headerStyle.css" />
+    <link rel="stylesheet" href="../../styles/addBookStyle.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+    <script src="../../scripts/headerStaffScript.js" defer></script>
+    <script src="../../scripts/editOrderScript.js" defer></script>
+</head>
+
+<body>
+    <%- include('partial/headerAdmin') %>
+
+    <!-- Edit Order Form -->
+    <div class="add-book-container">
+        <!-- Modal enter info-->
+        <div class="modal" id="book-modal">
+            <div class="modal-content">
+                <h2 class="add-title" style="font-size: 24px;">
+                    Chỉnh sửa thông tin đơn hàng
+                </h2>
+
+                <form id="edit-order-form" class="form-book-content" method="POST" action="/orders/update">
+                    <% if (typeof error !== 'undefined' && error) { %>
+                        <div class="announce-error" id="announce-error"><%= error %></div>
+                    <% } %>
+
+                    <label for="order-id" class="required">ID đơn hàng</label>
+                    <input 
+                        type="text" 
+                        id="order-id" 
+                        name="order_id" 
+                        value="<%= order.order_id %>"
+                        disabled 
+                    />
+
+                    <label for="customer-name" class="required">Tên khách hàng</label>
+                    <input 
+                        type="text" 
+                        id="customer-name" 
+                        name="customer_name" 
+                        placeholder="Nhập tên khách hàng" 
+                        value="<%= order.CustomerName %>"
+                        required 
+                    />
+
+                    <label for="order-date" class="required">Ngày đặt hàng</label>
+                    <input 
+                        type="date" 
+                        id="order-date" 
+                        name="order_date" 
+                        value="<%= order.date %>"
+                        required 
+                    />
+
+                    <label for="order-status" class="required">Trạng thái đơn hàng</label>
+                    <select id="order-status" name="order_status" required>
+                        <option value="">---Chọn trạng thái---</option>
+                        <option value="Đang vận chuyển" <%= order.status === 'Đang vận chuyển' ? 'selected' : '' %>>Đang vận chuyển</option>
+                        <option value="Đã giao" <%= order.status === 'Đã giao' ? 'selected' : '' %>>Đã giao</option>
+                        <option value="Đã hủy" <%= order.status === 'Đã hủy' ? 'selected' : '' %>>Đã hủy</option>
+                    </select>
+
+                    <div class="button-group">
+                        <button type="submit" class="edit-order-btn">Lưu thay đổi</button>
+                        <button type="button" class="close-btn-modal" onclick="window.history.back()">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="response-modal">
+        <div class="response-modal-content">
+            <h2 id="response-message"></h2>
+            <button id="ok-btn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const orderStatus = document.getElementById('order-status');
+            const orderFormElements = document.querySelectorAll('#edit-order-form input, #edit-order-form textarea');
+
+            if (orderStatus.value === 'Đã hủy' || orderStatus.value === 'Đã giao') {
+                orderStatus.disabled = true;
+            }
+
+            orderFormElements.forEach(element => {
+                if (element.id !== 'order-status') {
+                    element.readOnly = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
