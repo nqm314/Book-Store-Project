@@ -6,9 +6,12 @@ const urlParams = new URLSearchParams(window.location.search);
 const bookId = urlParams.get("id")
 console.log("editBookScript nha ", bookId);
 
+require('dotenv').config()
+const baseUrl = `http://localhost:${process.env.PORT || 5000}`;
+
 function fetchBookDetails() {
     console.log("Đang fetch thông tin cho Book ID:", bookId);
-    fetch(`http://localhost:3000/api/book/${bookId}`)
+    fetch(`${baseUrl}/api/book/${bookId}`)
     .then((response) => {
         console.log("Response nhận được:", response);
         if (!response.ok) {
@@ -54,7 +57,7 @@ document.getElementById('edit-book-form').addEventListener('submit', (e) => {
 
     console.log(updatedBook);
 
-    fetch(`http://localhost:3000/api/book/${bookId}`, {
+    fetch(`${baseUrl}/api/book/${bookId}`, {
         method: "PUT",
         headers: {
             'Content-Type': "application/json",

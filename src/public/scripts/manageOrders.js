@@ -32,7 +32,7 @@ editButton.forEach((button) => {
 // confirmDeleteButton.addEventListener("click", function () {
 //   console.log(bookToDeleteId);
 //   if (bookToDeleteId) {
-//     fetch(`http://localhost:3000/api/book/${bookToDeleteId}`, {
+//     fetch(`${baseUrl}/api/book/${bookToDeleteId}`, {
 //       method: "DELETE",
 //     })
 //       .then((response) => response.json())

@@ -1,7 +1,10 @@
-const express = require("express");
-const path = require("path");
-const initRoute = require("./routes");
-require("dotenv").config();
+
+const express = require('express')
+const path = require('path');
+const configSession = require('./config/session')
+const initRoute = require('./routes')
+require('dotenv').config();
+
 
 const app = express();
 const bodyParser = require("body-parser");
@@ -13,9 +16,11 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, "./public/")));
+app.use(express.static(path.join(__dirname, 'public')))
 
-initRoute(app);
+configSession(app)
+initRoute(app)
+
 
 const port = process.env.PORT || 5000;
 

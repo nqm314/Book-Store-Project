@@ -3,16 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/images/bookstore logo.jpg" />
     <title>Chi Tiết Sách</title>
-    <link rel="stylesheet" href="/styles/headerStyle.css" />
     <link rel="stylesheet" href="/styles/bookDetailStyle.css" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
+    <script src="/scripts/bookDetail.js" defer></script>
   </head>
   <body>
-    <%- include('partial/headerAdmin') %>
+    <%- include('../templates/header') %>
+
     <div class="book-detail-container">
       <div class="buy-book">
         <img src="../../images/book.png" alt="" />
@@ -44,7 +46,33 @@
           </form>
           
         </div>
-        <button>Thêm vào giỏ hàng</button>
+        <button class="add-cart">Thêm vào giỏ hàng</button>
+        <script>
+          document.getElementsByClassName("add-cart")[0].addEventListener('click', () => {
+            const bookID = <%- JSON.stringify(book_de.book_id) %>;
+            const name = <%- JSON.stringify(book_de.title) %>;
+            const book_type = <%- JSON.stringify(book_de.book_type) %>;
+            const issn = <%- JSON.stringify(typeof book_de.issn === 'undefined' ? null : book_de.issn) %>;
+            const isbn = <%- JSON.stringify(typeof book_de.isbn === 'undefined' ? null : book_de.isbn) %>;
+            const price = <%- JSON.stringify(book_de.price) %>;
+            const quantity = 1;
+            fetch('/cart/add', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                bookID,
+                name,
+                book_type,
+                issn,
+                isbn,
+                price,
+                quantity
+                })
+              }).then(respone => alert('Thêm vào giỏ hàng thành công'))
+          })
+        </script>
       </div>
       <div class="book-info-container">
         <div class="general-book-info">

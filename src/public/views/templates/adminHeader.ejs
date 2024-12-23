@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/styles/header.css" />
+<div class="header">
+    <div class="logo">
+        <a href="/">
+            <img
+                src="../../images/bookstore logo.jpg"
+                alt="Book Store Logo"
+                class="book-store-logo"
+            />
+        </a>
+    </div>
+    <div class="menu">
+        <a class="button-header" href="/admin">Dashboard</a>
+        <a class="button-header" href="/manageBooks">Quản Lý Sách</a>
+        <a class="button-header" href="/manageOrders">Quản Lý Đơn Hàng</a>
+        <div class="menu-user">
+            <% if(typeof name != "undefined") { %>
+            <img
+                src="/images/user-profile-icon-free-vector.jpg"
+                alt="User Avatar"
+            />
+            <div class="user"><%= name %></div>
+            <div class="user-dropdown" id="user-dropdown">
+                <a href="/info">Thông tin người dùng</a>
+                <a href="/logout">Đăng xuất</a>
+            </div>
+            <% } else { %>
+            <a class="user" href="/login">Đăng nhập</a> 
+            <% } %>
+        </div>
+    </div>
+</div>

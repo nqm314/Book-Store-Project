@@ -31,6 +31,7 @@ const getBookById = async (bookId) => {
   }
 };
 
+
 const search = async (query) => {
   try {
     const results = await db.execute(
@@ -117,6 +118,10 @@ const getAllBookInfo = async (query) => {
     const conditions = [];
     const params = [];
 
+    if(query.title) {
+      conditions.push("LOWER(book.title) LIKE LOWER(?)")
+      params.push(`%${query.title}%`)
+    }
     if (query.price) {
       // Nếu `price` chứa dấu '-' thì lấy khoảng BETWEEN
       if (query.price.includes("-")) {

@@ -9,6 +9,9 @@
   let bookToDeleteId = null;
   let bookToEditId = null;
 
+  require('dotenv').config()
+const baseUrl = `http://localhost:${process.env.PORT || 5000}`;
+
   // const searchForm = document.getElementById("form");
   // const searchInput = document.getElementById("search-area");
 
@@ -16,7 +19,7 @@
   //   event.preventDefault();
   //   const query = searchInput.value.trim();
   //   if (query) {
-  //     fetch(`http://localhost:3000/api/search?q=${query}`)
+  //     fetch(`${baseUrl}/api/search?q=${query}`)
   //       .then((response) => response.json())
   //       .then((data) => {
   //         // Handle the search results here
@@ -52,7 +55,7 @@
   confirmDeleteButton.addEventListener("click", function () {
     console.log(bookToDeleteId);
     if (bookToDeleteId) {
-      fetch(`http://localhost:3000/api/book/${bookToDeleteId}`, {
+      fetch(`${baseUrl}/api/book/${bookToDeleteId}`, {
         method: "DELETE",
       })
         .then((response) => response.json())

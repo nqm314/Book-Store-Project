@@ -19,8 +19,9 @@ body {
   height: 100vh;
   /* background-color: #888888; */
   background-image: url("../images/bookstore\ background.jpg");
-  background-repeat: no repeat;
+  background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
 }
 
 a:any-link {
@@ -79,7 +80,37 @@ a:active {
 }
 
 .login-box button:hover {
-  background-color: #333333;
+    background-color: #333333;
+}
+
+.login-box p {
+    color: red;
+    margin: 12px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; 
+}
+
+.menu a {
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+.menu img {
+    width: 40px;
+    height: 40px;
+    /* margin: 0px 0.5px 0px 0px; */
+}
+
+.menu-user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; 
 }
 
 .profile-container {

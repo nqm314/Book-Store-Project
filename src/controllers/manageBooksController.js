@@ -2,15 +2,16 @@ const path = require("path");
 const bookService = require("../services/manageBooksService");
 const db = require('../config/db');
 const { response } = require("express");
-
+require('dotenv').config()
+const baseUrl = `http://localhost:${process.env.PORT || 5000}`;
 const createBook = async (req, res) => {
   try {
     const responsePublishers = await fetch(
-      "http://localhost:3000/api/publisher/get-all"
+      `${baseUrl}/api/publisher/get-all`
     );
     const publishers = await responsePublishers.json();
     const responseSeries = await fetch(
-      "http://localhost:3000/api/get-all-series"
+      `${baseUrl}/api/get-all-series`
     );
     const series = await responseSeries.json();
     res.render("pages/create", {
@@ -31,11 +32,11 @@ const createBook = async (req, res) => {
 const editBook = async (req, res) => {
   try {
     const responsePublishers = await fetch(
-      "http://localhost:3000/api/publisher/get-all"
+      `${baseUrl}/api/publisher/get-all`
     );
     const publishers = await responsePublishers.json();
     const responseSeries = await fetch(
-      "http://localhost:3000/api/get-all-series"
+      `${baseUrl}/api/get-all-series`
     );
     const series = await responseSeries.json();
     res.render("pages/editBook", {
@@ -66,7 +67,7 @@ const searchBooks = async (req, res) => {
 
   try {
     // Lấy dữ liệu sách từ API
-    const response = await fetch(`http://localhost:3000/api/book/search?q=${encodeURIComponent(searchQuery)}`);
+    const response = await fetch(`/api/book/search?q=${encodeURIComponent(searchQuery)}`);
     let books = await response.json();
 
     console.log("Danh sách sách tìm kiếm được:", books);
@@ -112,7 +113,7 @@ const showBooks = async (req, res) => {
 
   try {
     // Lấy dữ liệu sách từ API
-    const response = await fetch("http://localhost:3000/api/get-book-info");
+    const response = await fetch(`${baseUrl}/api/get-book-info`);
     let books = await response.json();
 
     // Sắp xếp sách theo tiêu chí

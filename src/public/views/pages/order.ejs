@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/images/bookstore logo.jpg">
+        <title>Đơn hàng</title>
+        <link href="/styles/order.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <%- include('../templates/header'); %>
+        <h2 class="title">Thông tin đơn hàng</h2>
+        <form action="/order" class="filter" id="filter">
+            <label for="start_date">Từ ngày</label>
+            <input 
+                type="date" 
+                name="start_date" 
+                min="2022-01-01" 
+                max="<%= new Date().toISOString().split('T')[0] %>" 
+                value="<%= typeof start_date != "undefined" ? start_date : "2022-01-01" %>"
+                onchange="document.getElementById('filter').submit()"
+            >
+            <label for="end_date">đến</label>
+            <input 
+                type="date" 
+                name="end_date" 
+                min="2022-01-01" 
+                max="<%= new Date().toISOString().split('T')[0] %>" value="<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>"
+                onchange="document.getElementById('filter').submit()"
+            >
+        </form>
+        </div>
+        <table>
+            <tr>
+                <th>STT</th>
+                <th>Mã đơn</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Phí vận chuyển</th>
+                <th>Trạng thái</th>
+            </tr>
+            <% if (typeof notFound == "undefined") { %>
+            <% for(const key in orders) { %>
+            <tr>
+                <td><%= (currentPage - 1) * 10 + parseInt(key) + 1 %></td>
+                <td><%= orders[key].order_id %></td>
+                <td><%= orders[key].date %></td>
+                <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(orders[key].original_price) %></td>
+                <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(orders[key].shipment_cost) %></td>
+
+                <td><%= orders[key].status %></td>
+            </tr>
+            <% } %>
+        </table>
+        <div class="center">
+            <div class="pagination">
+                <a href="/order?page=1&start_date=<%= typeof start_date != "undefined" ? start_date : "2022-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>">
+                    &laquo;
+                </a>
+                <a href="/order?page=<%= currentPage - 2 %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2022-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>" <%= currentPage - 2 <= 0 ? 'style=display:none;' : '' %>>
+                    <%= currentPage - 2 %>
+                </a>
+                <a href="/order?page=<%= currentPage - 1 %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2022-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>" <%= currentPage - 1 <= 0 ? 'style=display:none;' : '' %>>
+                    <%= currentPage - 1 %>
+                </a>
+                <a class="active" href="#"><%= currentPage %></a>
+                <a href="/order?page=<%= currentPage + 1 %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2022-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>" <%= currentPage + 1 > totalPages ? 'style=display:none;' : '' %>>
+                    <%= currentPage + 1 %>
+                </a>
+                <a href="/order?page=<%= currentPage + 2 %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2022-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>" <%= currentPage + 2 > totalPages ? 'style=display:none;' : '' %>>
+                    <%= currentPage + 2 %>
+                </a>
+                <a href="/order?page=<%= totalPages %>&start_date=<%= typeof start_date != "undefined" ? start_date : "2022-01-01" %>&end_date=<%= typeof end_date != "undefined" ? end_date : new Date().toISOString().split('T')[0] %>">
+                    &raquo;
+                </a>
+            </div>
+        </div>
+        <% } else { %>
+        </table>
+        <div class="message">
+            <h2>Hiện tại bạn chưa có đơn hàng</h2>
+        </div>
+        <% } %>
+    </body>
+</html>
