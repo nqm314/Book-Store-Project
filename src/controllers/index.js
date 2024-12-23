@@ -6,6 +6,7 @@ const searchController = require("./searchController");
 const authController = require('./authController');
 const cartController = require('./cartController');
 const homeController = require('./homeController');
+const dashboardController = require('./dashboardController');
 
 module.exports = {
   orderController,
@@ -15,5 +16,6 @@ module.exports = {
   authController,
   cartController,
   homeController,
+  dashboardController,
 };
 

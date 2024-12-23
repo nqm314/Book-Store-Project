@@ -1,0 +1,32 @@
+<!-- views/partials/styles/orderStyles.ejs -->
+<style>
+    #order-modal {
+      overflow: auto;
+    }
+    #order-modal.show {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+    }
+    .modal-content {
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-wrapper {
+      padding: 2rem;
+      margin: 2rem;
+    }
+    @media (max-width: 640px) {
+      .modal-wrapper {
+        width: 90%;
+        padding: 1rem;
+      }
+    }
+  </style>

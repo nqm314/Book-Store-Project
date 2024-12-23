@@ -3,6 +3,9 @@ const db = require("../config/db");
 const bookService = require("../services/bookService");
 const publisherService = require("../services/publisherService");
 
+require('dotenv').config()
+const baseUrl = `http://localhost:${process.env.PORT || 5000}`;
+
 const searchFieldBook = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = 30;
@@ -62,19 +65,19 @@ const getBookDetails = async (req, res) => {
     const bookId = req.params.book_id;
     const selectedVersion = req.query.version || ""; // Lấy giá trị từ query string
     const authors = await fetch(
-      `http://localhost:5000/api/book/is-written/${bookId}`
+      `${baseUrl}/api/book/is-written/${bookId}`
     ).then((response) => response.json());
     const editions = await fetch(
-      `http://localhost:5000/api/book/edition/${bookId}`
+      `${baseUrl}/api/book/edition/${bookId}`
     ).then((response) => response.json());
     const issues = await fetch(
-      `http://localhost:5000/api/book/issue/${bookId}`
+      `${baseUrl}/api/book/issue/${bookId}`
     ).then((response) => response.json());
     const edition = await fetch(
-      `http://localhost:5000/api/book/edition/${bookId}/${selectedVersion}`
+      `${baseUrl}/api/book/edition/${bookId}/${selectedVersion}`
     ).then((response) => response.json());
     const issue = await fetch(
-      `http://localhost:5000/api/book/issue/${bookId}/${selectedVersion}`
+      `${baseUrl}/api/book/issue/${bookId}/${selectedVersion}`
     ).then((response) => response.json());
     const authorsList = authors.map(
       (author) => `${author.lastname} ${author.firstname}`

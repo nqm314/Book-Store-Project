@@ -7,6 +7,7 @@ const bookDetailService = require("./bookDetailService");
 const customerService = require('./customerService');
 const staffService = require('./staffService');
 const cartService = require('./cartService');
+const dashboardService = require('./dashboardService');
 module.exports = {
   orderService,
   bookService,
@@ -16,5 +17,6 @@ module.exports = {
   customerService,
   staffService,
   cartService,
+  dashboardService,
 };
 

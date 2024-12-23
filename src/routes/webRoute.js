@@ -7,6 +7,7 @@ const { authMiddleware } = require("../middlewares")
 const route = Router();
 
 route.get('/', authMiddleware.checkLogin, controllers.homeController.showHomePage)
+route.get('/admin', authMiddleware.checkLogin, controllers.homeController.showAdminHomePage)
 //     async (req, res) => {
 //     if (req.session.loggedin) {
 //         if (req.session.user.role === "CUSTOMER") {
@@ -54,10 +55,26 @@ route.get('/', authMiddleware.checkLogin, controllers.homeController.showHomePag
 //   res.render("pages/admin");
 // });
 
-// route.get("/manageBooks", (req, res) => {
-//   // return res.sendFile(path.join(__dirname, "../public/views/pages/login"));
-//   res.render("pages/manageBooks");
-// });
+route.get("/admin/add-edition", (req, res) => {
+  res.render("pages/createEdition");
+})
+
+route.get("/admin/add-issue", (req, res) => {
+  res.render("pages/createIssue");
+})
+
+route.get("/admin/edit-book", (req, res) => {
+  res.render("pages/editBook");
+})
+
+route.get("/admin/manage-books", (req, res) => {
+  res.render("pages/manageBooks");
+});
+
+route.get("/admin/manageOrders", (req, res) => {
+  // return res.sendFile(path.join(__dirname, "../public/views/pages/login"));
+  res.render("pages/manageOrders");
+});
 
 // Create
 

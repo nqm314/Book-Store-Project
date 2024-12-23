@@ -1,8 +1,10 @@
 const search = document.getElementById("search-area");
 const form = document.getElementById("form");
 const bookList = document.getElementById("book-list");
+require('dotenv').config()
+const baseUrl = `http://localhost:${process.env.PORT || 5000}`;
 
-fetchBooks("http://localhost:5000/api/book/get-all");
+fetchBooks(`${baseUrl}/api/book/get-all`);
 
 function fetchBooks(url) {
   fetch(url)
@@ -50,13 +52,13 @@ form.addEventListener("submit", (e) => {
   const query = search.value.toLowerCase();
   if (query) {
     fetch(
-      `http://localhost:5000/api/book/search?q=${encodeURIComponent(query)}`
+      `${baseUrl}/api/book/search?q=${encodeURIComponent(query)}`
     )
       .then((response) => response.json())
       .then((data) => displayBook(data))
       .catch((error) => console.error("Lỗi khi tìm kiếm sách: ", error));
   } else {
-    fetchBooks("http://localhost:5000/api/book/get-all");
+    fetchBooks(`${baseUrl}/api/book/get-all`);
   }
   search.value = "";
 });

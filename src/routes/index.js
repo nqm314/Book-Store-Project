@@ -9,6 +9,7 @@ const searchRoute = require("./searchRoute");
 const initRoute = (app) => {
   app.use("/api", apiRoute);
   app.use("/manageBooks", bookRoute);
+  app.use("/manageOrders", orderRoute);
   app.use("/search", searchRoute);
 
   app.use("/", webRoute);
