@@ -130,6 +130,27 @@ const getOrdersAboveThreshold = async (req, res) => {
   }
 };
 
+const updateOrder = async (req, res) => {
+    const { order_id, status } = req.body;
+
+    console.log("Update order: ", order_id, status);
+
+    try {
+      const [result] = await db.execute(
+        `call updateOrder(?,?)`,
+        [order_id, status]
+      );
+  
+      if (result.affectedRows) {
+        return res.status(200).json({ message: "Order updated successfully." });
+      }
+  
+      return res.status(404).json({ error: "Order not found." });
+    } catch (error) {
+      console.error("Error while updating order: ", error);
+      res.status(500).send("An error occurred while updating order.");
+    }
+  };
 
 module.exports = {
   showOrderPage,
@@ -139,4 +160,5 @@ module.exports = {
   editOrder,
   getOrderDetail,
   getOrdersAboveThreshold,
+  updateOrder, 
 };
