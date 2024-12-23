@@ -21,6 +21,7 @@ route.get("/book/rating/get-all", controllers.bookController.getAllRating);
 
 //Order route
 route.get("/order/get-all-order", controllers.orderController.getAllOrder);
+route.put("/order/update/:orderID", controllers.orderController.updateOrder);
 route.get("/order/:orderId", controllers.orderController.getOrderDetail);
 route.get(
   "/filter-by-threshold",

@@ -26,7 +26,7 @@
                     Chỉnh sửa thông tin đơn hàng
                 </h2>
 
-                <form id="edit-order-form" class="form-book-content" method="POST" action="/orders/update">
+                <form id="edit-order-form" class="form-book-content">
                     <% if (typeof error !== 'undefined' && error) { %>
                         <div class="announce-error" id="announce-error"><%= error %></div>
                     <% } %>
@@ -50,14 +50,55 @@
                         required 
                     />
 
-                    <label for="order-date" class="required">Ngày đặt hàng</label>
+                    <label for="customer-sex" class="required">Giới tính</label>
                     <input 
-                        type="date" 
-                        id="order-date" 
-                        name="order_date" 
-                        value="<%= order.date %>"
+                        type="text" 
+                        id="customer-sex" 
+                        name="customer_sex" 
+                        placeholder="Nhập tên khách hàng" 
+                        value="<%= order.CustomerSex %>"
                         required 
                     />
+
+                    <label for="customer-age" class="required">Tuổi</label>
+                    <input 
+                        type="text" 
+                        id="customer-age" 
+                        name="customer_age" 
+                        placeholder="Nhập tên khách hàng" 
+                        value="<%= order.CustomerAge %>"
+                        required 
+                    />
+
+                    <label for="customer-level" class="required">Loại khách hàng</label>
+                    <input 
+                        type="text" 
+                        id="customer-level" 
+                        name="customer_level" 
+                        placeholder="Nhập tên khách hàng" 
+                        value="<%= order.CustomerLevel %>"
+                        required 
+                    />
+
+                    <label for="order-date" class="required">Ngày đặt hàng</label>
+                    <input 
+                        type="text" 
+                        id="order-date" 
+                        name="order_date" 
+                        value="<%= new Date(order.date).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>"
+                        required 
+                    />
+
+                    <label for="order-address" class="required">Địa chỉ</label>
+                    <input 
+                        type="text" 
+                        id="order-address" 
+                        name="order_address" 
+                        value="<%= order.address %>"
+                        required 
+                    />
+
+
 
                     <label for="order-status" class="required">Trạng thái đơn hàng</label>
                     <select id="order-status" name="order_status" required>
@@ -68,7 +109,7 @@
                     </select>
 
                     <div class="button-group">
-                        <button type="submit" class="edit-order-btn">Lưu thay đổi</button>
+                        <button type="submit" class="add-book-btn">Lưu thay đổi</button>
                         <button type="button" class="close-btn-modal" onclick="window.history.back()">Hủy</button>
                     </div>
                 </form>
