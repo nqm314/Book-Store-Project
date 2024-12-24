@@ -6,6 +6,7 @@
             id="search-area"
             name="title"
             placeholder="Search"
+            value="<%= typeof query != 'undefined' && query.title != 'undefined' ? query.title : '' %>"
         />
         <button><span>🔍</span></button>
     </form>

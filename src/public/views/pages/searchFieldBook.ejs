@@ -112,7 +112,7 @@
           %>
           <div class="book-item">
             <a href="/search/book/<%= book.book_id %>">
-              <img src="../../images/book.png" alt="Book <%= book.book_id %>" class="book-cover" />
+              <img src="/images/book/<%= Number(book.book_id.slice(2)) % 23 %>.png" alt="Book <%= book.book_id %>" class="book-cover" />
             </a>
             <div class="book-info">
               <h3><%= book.title %></h3>

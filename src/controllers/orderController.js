@@ -56,7 +56,7 @@ WHERE
     // Sắp xếp đơn hàng theo tiêu chí
     orders = orders.sort((a, b) => {
       if (sort === 'date') {
-        return new Date(a.date) - new Date(b.date);
+        return new Date(b.date) - new Date(a.date);
       } else if (sort === 'status') {
         return a.status.localeCompare(b.status);
       } else if (sort === 'price') {
@@ -103,7 +103,7 @@ const showOders = async (req, res) => {
     // Sort orders based on the specified criteria
     ordersRes.sort((a, b) => {
       if (sort === 'date') {
-        return new Date(a.date) - new Date(b.date);
+        return new Date(b.date) - new Date(a.date);
       } else if (sort === 'status') {
         return a.status.localeCompare(b.status);
       } else if (sort === 'price') {

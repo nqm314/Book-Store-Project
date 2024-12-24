@@ -17,7 +17,7 @@
 
     <div class="book-detail-container">
       <div class="buy-book">
-        <img src="../../images/book.png" alt="" />
+        <img src="/images/book/<%= Number(book_des[0].book_id.slice(2)) % 23 %>.png" alt="" />
         <div class="description-book">
           <span>Mô tả sản phẩm:</span>
           <p><%= book_des[0].description %></p>
