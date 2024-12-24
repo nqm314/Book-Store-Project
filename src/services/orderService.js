@@ -52,7 +52,7 @@ const getOrderByCustomer = async (customer_id, page = 1, start_date, end_date) =
         const offset = (Number(page) - 1) * limit
 
         if(!start_date) {
-            start_date = '2022-01-01'
+            start_date = '2020-01-01'
         }
         if(!end_date) {
             const today = new Date();
@@ -80,6 +80,7 @@ const checkout = async (customer_id, cart, address) => {
     const product = JSON.stringify(cart.products);
     await db.beginTransaction();
     try {
+      console.log(product);
         await db.execute('CALL checkout (?, ?, ?, ?, ?, ?)', [customer_id, cart.shipfee, address, cart.discount.discount_id, cart.discount.percentage, product]);
         await db.commit();
     } catch (err) {
