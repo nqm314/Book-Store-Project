@@ -55,6 +55,8 @@ route.get('/admin', authMiddleware.isStaff, controllers.homeController.showAdmin
 //   res.render("pages/admin");
 // });
 
+route.get('/infoAdmin', authMiddleware.isStaff, controllers.authController.showInfoAdmin)
+
 route.get("/admin/add-edition", authMiddleware.isStaff, (req, res) => {
   res.render("pages/createEdition");
 })

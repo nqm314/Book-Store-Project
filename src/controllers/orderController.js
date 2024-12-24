@@ -25,12 +25,76 @@ const showOrderPage = async (req, res) => {
     return res.render("pages/order");
 };
 
+const searchOrders = async (req, res) => {
+  const searchQuery = req.query.q || ""; // Lấy từ khóa tìm kiếm từ query params
+  const page = parseInt(req.query.page) || 1; // Lấy trang hiện tại từ query params
+  const limit = 20; // Số đơn hàng mỗi trang
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const sort = req.query.sort || "order_id"; // Lấy tiêu chí sắp xếp từ query params
+
+  console.log("Từ khóa tìm kiếm:", searchQuery);
+  console.log("Tiêu chí sắp xếp:", sort);
+
+  try {
+    // Lấy dữ liệu đơn hàng từ cơ sở dữ liệu (giả định)
+    const response = await db.execute(
+      `SELECT * 
+FROM orders o LEFT JOIN customer c ON o.customer_id = c.customer_id 
+WHERE 
+          (? = '' OR MATCH(o.order_id) AGAINST(? IN NATURAL LANGUAGE MODE) OR
+          MATCH(c.name) AGAINST(? IN NATURAL LANGUAGE MODE) OR
+          MATCH(o.address) AGAINST(? IN NATURAL LANGUAGE MODE) OR
+          MATCH(o.status) AGAINST(? IN NATURAL LANGUAGE MODE))
+        `,
+      [searchQuery, searchQuery, searchQuery, searchQuery, searchQuery]
+    );
+    let orders = response[0];
+
+    console.log("Danh sách đơn hàng tìm kiếm được:", orders);
+
+    // Sắp xếp đơn hàng theo tiêu chí
+    orders = orders.sort((a, b) => {
+      if (sort === 'date') {
+        return new Date(a.date) - new Date(b.date);
+      } else if (sort === 'status') {
+        return a.status.localeCompare(b.status);
+      } else if (sort === 'price') {
+        return a.original_price - b.original_price;
+      } else {
+        return a.order_id - b.order_id;
+      }
+    });
+
+    // Lấy các đơn hàng cho trang hiện tại
+    const paginatedOrders = orders.slice(startIndex, endIndex);
+
+    console.log("Orders: ", paginatedOrders);
+
+    // Tính tổng số trang
+    const totalPages = Math.ceil(orders.length / limit);
+
+    // Render trang với danh sách đơn hàng và thông tin phân trang
+    res.render("pages/manageOrders", {
+      orders: paginatedOrders,
+      currentPage: page,
+      totalPages: totalPages,
+      sort: sort,
+      searchQuery: searchQuery,
+    });
+  } catch (err) {
+    console.error("Lỗi khi tìm kiếm đơn hàng:", err);
+    res.status(500).send("Lỗi khi tìm kiếm đơn hàng");
+  }
+};
+
 const showOders = async (req, res) => {
   const page = parseInt(req.query.page) || 1; // Get the current page from query params
   const limit = 20; // Number of orders per page
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   const sort = req.query.sort || 'order_id'; // Get the sort criteria from query params, default to 'order_id'
+  const searchQuery = req.query.q || ''; // Get the search query from query params
 
   try {
     // Fetch orders from the service
@@ -63,6 +127,7 @@ const showOders = async (req, res) => {
       currentPage: page,
       totalPages: totalPages,
       sort: sort,
+      searchQuery: searchQuery,
     });
   } catch (err) {
     console.error("Error fetching orders:", err);
@@ -174,6 +239,7 @@ module.exports = {
   addOrder,
   getAllOrder,
   showOders,
+  searchOrders,
   editOrder,
   getOrderDetail,
   getOrdersAboveThreshold,

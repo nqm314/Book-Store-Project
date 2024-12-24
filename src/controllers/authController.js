@@ -80,11 +80,19 @@ const showInfo = async (req, res) => {
     return res.render('pages/info')
 }
 
+const showInfoAdmin = async (req, res) => {
+    const staffUsername = req.session.user.username;
+    const staff = await staffService.findStaffByUsername(staffUsername);
+    res.locals.staff = staff;
+    return res.render('pages/infoAdmin')
+}
+
 module.exports = {
     showLoginCustomer,
     showLoginStaff,
     loginCustomer,
     loginStaff,
     logout,
+    showInfoAdmin,
     showInfo,
 };

@@ -19,6 +19,12 @@ let orderToEditId = null;
 //   });
 // });
 
+function searchOrders() {
+  const searchQuery = document.getElementById('search-input').value;
+  const sort = document.getElementById('sort-dropdown').value;
+  window.location.href = `/manageOrders/search?q=${searchQuery}&sort=${sort}&page=1`;
+}
+
 editButton.forEach((button) => {
   button.addEventListener("click", function () {
     orderToEditId =

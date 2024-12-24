@@ -6,6 +6,9 @@
   const cancelDeleteButton = document.getElementById("cancel-delete");
   const confirmEditButton = document.getElementById("confirm-edit");
   const cancelEditButton = document.getElementById("cancel-edit");
+  const responseModal = document.getElementById("response-modal");
+  const responseMessage = document.getElementById("response-message");
+  const okBtn = document.getElementById("ok-btn");
   let bookToDeleteId = null;
   let bookToEditId = null;
 
@@ -57,8 +60,14 @@
         .then((response) => response.json())
         .then((data) => {
           if (data.message) {
-            alert(data.message);
-            window.location.reload(); // Reload the page after deletion
+            responseMessage.innerHTML = `Xóa sách thành công!`;
+            responseModal.style.display = "block";
+  
+            // Đóng modal khi nhấn nút OK
+            okBtn.addEventListener("click", function () {
+              responseModal.style.display = "none";
+              window.location.reload();
+            });
           }
         })
         .catch((error) => {

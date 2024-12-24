@@ -14,7 +14,8 @@ const totalPages = async (customer_id) => {
 }
 const getAll = async () => {
   try {
-    const result = await db.execute("SELECT * FROM `orders`");
+    const result = await db.execute(
+      "SELECT * FROM orders o LEFT JOIN customer c ON o.customer_id = c.customer_id");
     return result[0];
   } catch (error) {
     throw error;

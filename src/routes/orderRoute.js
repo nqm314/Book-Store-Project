@@ -11,6 +11,7 @@ route.post('/order', authMiddleware.isCustomer, orderController.addOrder)
 
 route.get("/", authMiddleware.isStaff, manageOrdersController.showOders);
 route.get("/edit", authMiddleware.isStaff, manageOrdersController.editOrder);
+route.get("/search", authMiddleware.isStaff, manageOrdersController.searchOrders);
 
 module.exports = route
 

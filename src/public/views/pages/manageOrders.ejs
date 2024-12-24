@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quản lý đơn hàng</title>
-    <link rel="stylesheet" href="../../styles/headerStyle.css" />
-    <link rel="stylesheet" href="../../styles/manageBooksStyle.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý đơn hàng</title>
+  <link rel="stylesheet" href="../../styles/headerStyle.css" />
+  <link rel="stylesheet" href="../../styles/manageBooksStyle.css" />
+  <link rel="stylesheet" href="../../styles/manageOrdersStyle.css" />
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    rel="stylesheet"
+  />
+</head>
 
-  <body>
-    <%- include('../templates/adminHeader') %>
-    <div class="search-container">
+<body>
+  <%- include('../templates/adminHeader') %>
+  <div class="search-container">
+    <div class="search-box">
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Tìm kiếm đơn hàng..."
+        value="<%= searchQuery %>"
+      />
+      <button onclick="searchOrders()">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    <div class="sort-box">
       <select name="sort" id="sort-dropdown" onchange="sortOrders()">
         <option value="order_id" <%= sort === 'order_id' ? 'selected' : '' %>>Sắp xếp theo</option>
         <option value="date" <%= sort === 'date' ? 'selected' : '' %>>Ngày đặt hàng</option>
@@ -22,79 +35,83 @@
         <option value="price" <%= sort === 'price' ? 'selected' : '' %>>Giá đơn hàng</option>
       </select>
     </div>
-    <div class="table-container">
-      <h1>Danh sách đơn hàng</h1>
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 20px">STT</th>
-            <th style="width: 175px">Mã đơn hàng</th>
-            <th style="width: 175px">Mã khách hàng</th>
-            <th style="width: 175px">Địa chỉ</th>
-            <th style="width: 200px">Ngày đặt hàng</th>
-            <th style="width: 150px">Trạng thái</th>
-            <th style="width: 150px">Giá đơn hàng</th>
-            <th style="width: 40px"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% orders.forEach((order, index) => { %>
-          <tr>
-            <td><%= (currentPage - 1) * 20 + index + 1 %></td>
-            <td><%= order.order_id %></td>
-            <td><%= order.customer_id %></td>
-            <td><%= order.address %></td>
-            <td><%= new Date(order.date).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></td>
-            <td><%= order.status %></td>
-            <td><%= order.original_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
-            <td>
-              <button class="edit-btn" data-order-id="<%= order.order_id %>">
-                <i class="fas fa-edit"></i> Sửa
-              </button>
-            </td>
-          </tr>
-          <% }) %>
-        </tbody>
-      </table>
-      <div class="pagination">
-        <% if (currentPage > 1) { %>
-        <a href="?page=<%= currentPage - 1 %>&sort=<%= sort %>">Trang trước</a>
-        <% } %>
-        <a href="?page=1&sort=<%= sort %>">1</a>
-        <% if (currentPage > 4) { %>
-        <span>...</span>
-        <% } %> 
-        <% for (let i = currentPage - 2; i <= currentPage + 2; i++) { %>
-        <% if (i > 1 && i < totalPages) { %>
-        <a href="?page=<%= i %>&sort=<%= sort %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
-        <% } %>
-        <% } %> 
-        <% if (currentPage < totalPages - 3) { %>
-        <span>...</span>
-        <% } %> 
-        <% if (totalPages > 1) { %>
-        <a href="?page=<%= totalPages %>&sort=<%= sort %>"><%= totalPages %></a>
-        <% } %> 
-        <% if (currentPage < totalPages) { %>
-        <a href="?page=<%= currentPage + 1 %>&sort=<%= sort %>">Trang sau</a>
-        <% } %>
-      </div>
+  </div>
+  <div class="table-container">
+    <h1>Danh sách đơn hàng</h1>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 20px">STT</th>
+          <th style="width: 175px">Mã đơn hàng</th>
+          <th style="width: 175px">Tên khách hàng</th>
+          <th style="width: 175px">Địa chỉ</th>
+          <th style="width: 200px">Ngày đặt hàng</th>
+          <th style="width: 150px">Trạng thái</th>
+          <th style="width: 150px">Giá đơn hàng</th>
+          <th style="width: 40px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach((order, index) => { %>
+        <tr>
+          <td><%= (currentPage - 1) * 20 + index + 1 %></td>
+          <td><%= order.order_id %></td>
+          <td><%= order.name %></td>
+          <td><%= order.address %></td>
+          <td><%= new Date(order.date).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></td>
+          <td><%= order.status %></td>
+          <td><%= order.original_price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
+          <td>
+            <button class="edit-btn" data-order-id="<%= order.order_id %>">
+              <i class="fas fa-edit"></i> Sửa
+            </button>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <% if (currentPage > 1) { %>
+      <a href="?page=<%= currentPage - 1 %>&q=<%= searchQuery %>&sort=<%= sort %>">Trang trước</a>
+      <% } %>
+    
+      <a href="?page=1&q=<%= searchQuery %>&sort=<%= sort %>">1</a>
+    
+      <% if (currentPage > 4) { %>
+      <span>...</span>
+      <% } %> 
+      <% for (let i = currentPage - 2; i <= currentPage + 2; i++) { %>
+      <% if (i > 1 && i < totalPages) { %>
+      <a href="?page=<%= i %>&q=<%= searchQuery %>&sort=<%= sort %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+      <% } %> 
+      <% } %> 
+      <% if (currentPage < totalPages - 3) { %>
+      <span>...</span>
+      <% } %> 
+      <% if (totalPages > 1) { %>
+      <a href="?page=<%= totalPages %>&q=<%= searchQuery %>&sort=<%= sort %>"><%= totalPages %></a>
+      <% } %> 
+      <% if (currentPage < totalPages) { %>
+      <a href="?page=<%= currentPage + 1 %>&q=<%= searchQuery %>&sort=<%= sort %>">Trang sau</a>
+      <% } %>
     </div>
+  </div>
 
-    <div id="confirmation-edit-box" class="hidden">
-      <div class="confirmation-content">
-        <p>Bạn có chắc chắn muốn cập nhật đơn hàng này?</p>
-        <button id="confirm-edit" class="confirm-btn">Sửa</button>
-        <button id="cancel-edit" class="cancel-btn">Hủy</button>
-      </div>
+  <div id="confirmation-edit-box" class="hidden">
+    <div class="confirmation-content">
+      <p>Bạn có chắc chắn muốn cập nhật đơn hàng này?</p>
+      <button id="confirm-edit" class="confirm-btn">Sửa</button>
+      <button id="cancel-edit" class="cancel-btn">Hủy</button>
     </div>
-    <script src="../../scripts/headerStaffScript.js" defer></script>
-    <script src="../../scripts/manageOrders.js" defer></script>
-    <script>
-      function sortOrders() {
-        const sort = document.getElementById('sort-dropdown').value;
-        window.location.href = `?sort=${sort}&page=1`;
-      }
-    </script>
-  </body>
+  </div>
+  <script src="../../scripts/headerStaffScript.js" defer></script>
+  <script src="../../scripts/manageOrders.js" defer></script>
+  <script>
+    function sortOrders() {
+      const sort = document.getElementById('sort-dropdown').value;
+      const searchQuery = document.getElementById('search-input').value;
+      window.location.href = `?sort=${sort}&q=${searchQuery}&page=1`;
+    }
+  </script>
+</body>
 </html>

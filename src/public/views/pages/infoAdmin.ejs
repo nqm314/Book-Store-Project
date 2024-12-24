@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin</title>
+        <link href="/styles/info.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+        <%- include('../templates/adminHeader') %>
+
+        <div class="profile-container">
+            <div class="profile-box">
+                <div class="profile-sidebar">
+                    <h3>Nhân viên</h3>
+                    <div class="profile-info">
+                        <div class="info-box">
+                            <p><strong>ID</strong></p>
+                            <p class="info-value"><%= staff.staff_id %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <h2>Thông tin cá nhân</h2>
+                    <div class="info-details">
+                        <div class="info-box">
+                            <p class="info-field">Họ và tên</p>
+                            <p class="info-value"><%= staff.lastname %> <%= staff.firstname %></p>
+                        </div>
+
+                        <div class="info-box">
+                            <p class="info-field">Chức vụ</p>
+                            <p class="info-value"><%= staff.manager_flag === 1 ? 'Quản lý' : 'Nhân viên thường' %></p>
+                        </div>
+
+                        <div class="info-box">
+                            <p class="info-field">Mức lương</p>
+                            <p class="info-value"><%= staff.salary %></p>
+                        </div>
+
+                        <div class="info-box">
+                            <p class="info-field">Ngày bắt đầu làm việc</p>
+                            <p class="info-value"><%= new Date(staff.hire_date).toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
