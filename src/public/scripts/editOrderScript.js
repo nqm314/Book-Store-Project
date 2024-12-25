@@ -16,7 +16,7 @@ document.getElementById('edit-order-form').addEventListener('submit', (e) => {
 
     console.log(updatedOrder);
 
-    fetch(`http://localhost:3000/api/order/update/${orderId}`, {
+    fetch(`/api/order/update/${orderId}`, {
         method: "PUT",
         headers: {
             'Content-Type': "application/json",
